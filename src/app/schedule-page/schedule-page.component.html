@@ -1,0 +1,39 @@
+<div class="container">
+  <h1>Розклад Занять</h1>
+  <div class="second-container">
+    <img
+      src="assets/Arrow.svg"
+      alt="Изображение"
+      (click)="previousMonth()"
+      class="arrow"
+    />
+    <h2>{{ currentMonth }} {{ currentYear }}</h2>
+    <img
+      src="assets/Arrow.svg"
+      alt="Изображение"
+      (click)="nextMonth()"
+      class="arrow"
+      id="right-arrow"
+    />
+  </div>
+  <div class="third-container">
+    <div class="day-name">Пн</div>
+    <div class="day-name">Вт</div>
+    <div class="day-name">Ср</div>
+    <div class="day-name">Чт</div>
+    <div class="day-name">Пт</div>
+    <div class="day-name">Сб</div>
+    <div class="day-name">Вс</div>
+  </div>
+  <div class="days">
+    <div class="day" *ngFor="let day of daysInMonth" (click)="showPopup(day)">
+      {{ day }}
+    </div>
+  </div>
+  <div class="popup" *ngIf="showPopupFlag">
+    <!-- Здесь содержимое вашего всплывающего окна -->
+    <p>Выбран день {{ selectedDay }}</p>
+    <button (click)="hidePopup()">Закрыть</button>
+  </div>
+</div>
+<app-side-menu></app-side-menu>

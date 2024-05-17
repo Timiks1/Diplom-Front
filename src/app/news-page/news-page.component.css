@@ -1,0 +1,37 @@
+.container {
+  background-color: #e6f0f3;
+  height: 120vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.second-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20%;
+}
+.from-where {
+  width: 250px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+}
+.from-where.active {
+  background-color: #32cd32; /* Задний фон зеленый, если директива активна */
+  color: #ffffff;
+}
+
+.news {
+  margin-top: 4%;
+  width: 300px;
+  height: 80px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-style: solid;
+}

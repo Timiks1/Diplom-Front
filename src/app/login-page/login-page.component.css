@@ -1,0 +1,39 @@
+.container {
+  background-color: #e6f0f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.central-container {
+  text-align: center; /* Центрируем текст */
+}
+
+.enter-field,
+.enter-button {
+  display: block; /* Делаем элементы блочными */
+  margin: 10px auto; /* Устанавливаем отступы для центрирования */
+}
+.enter-field {
+  margin: 10px auto;
+  width: 300px;
+  height: 40px;
+  border-radius: 30px;
+}
+.enter-field::placeholder {
+  color: #999; /* Цвет текста плейсхолдера */
+  padding-left: 5%;
+  font-size: medium;
+}
+
+.enter-field:focus::placeholder {
+  color: transparent; /* Скрыть плейсхолдер при фокусировке на поле ввода */
+}
+.enter-button {
+  width: 200px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #4d4d4d;
+  color: #ffffff;
+  font-size: large;
+}

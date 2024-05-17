@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Новини</h1>
+  <div class="second-container">
+    <div
+      class="from-where"
+      [class.active]="selectedCategory === 'educational'"
+      (click)="loadNews('educational')"
+    >
+      Від навчальної частини
+    </div>
+    <div
+      class="from-where"
+      [class.active]="selectedCategory === 'department'"
+      (click)="loadNews('department')"
+    >
+      Від зав. кафедрою
+    </div>
+  </div>
+  <div class="news-container">
+    <div class="news"></div>
+    <div class="news"></div>
+    <div class="news"></div>
+    <div class="news"></div>
+    <div class="news"></div>
+  </div>
+</div>
+<app-side-menu></app-side-menu>

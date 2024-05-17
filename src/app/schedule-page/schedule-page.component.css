@@ -1,0 +1,78 @@
+.container {
+  background-color: #e6f0f3;
+  height: 120vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.second-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.arrow {
+  scale: 1.5;
+}
+#right-arrow {
+  rotate: 180deg;
+}
+.third-container {
+  margin-top: 2%;
+  display: flex;
+  gap: 20px;
+}
+.day-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  border-style: solid;
+  border-width: 1px;
+}
+.days {
+  margin-top: 3%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 1184px;
+  gap: 20px;
+}
+
+.day {
+  width: 150px; /* Равномерное распределение дней по 7 дням в неделе */
+  height: 50px; /* Высота прямоугольника */
+  background-color: #ffff;
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 50px;
+}
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: 20%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  background-color: #e6f0f3;
+
+  z-index: 9999; /* Убедитесь, что z-index окна выше, чем у других элементов */
+}
+
+.popup button {
+  margin-top: 10px;
+}

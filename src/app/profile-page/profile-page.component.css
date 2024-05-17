@@ -1,0 +1,64 @@
+.container {
+  background-color: #e6f0f3;
+  height: 120vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.second-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.first-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.circle {
+  width: 200px;
+  height: 200px;
+  background-color: #ffffff;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+.upload {
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #4d4d4d;
+  border-style: none;
+  color: #ffffff;
+}
+.second-block {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.input {
+  width: 200px;
+  height: 30px;
+  border-radius: 15px;
+}
+#save-button {
+  margin-top: 38px;
+}
+.third-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.big-input {
+  padding: 10px;
+  width: 500px;
+  height: 200px;
+  border-radius: 20px;
+}
+#big-button {
+  width: 200px;
+}

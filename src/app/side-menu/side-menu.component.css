@@ -1,0 +1,39 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -180px; /* Начальная позиция за левой границей экрана */
+  width: 200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #333; /* Цвет фона меню */
+  color: #fff; /* Цвет текста */
+  transition: left 0.3s ease; /* Анимация для плавного открытия и закрытия */
+}
+
+.sidebar.open {
+  left: 0; /* Отобразить меню */
+}
+.sidebar:hover {
+  left: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+ul li a:hover {
+  text-decoration: underline;
+}
