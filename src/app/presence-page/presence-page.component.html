@@ -25,7 +25,51 @@
       <div class="row-text">Кристал</div>
     </div>
     <div class="line"></div>
-    <div class="content"></div>
+    <div class="content">
+      <div *ngFor="let student of students; let i = index" class="student-container">
+        <div class="student-row">
+          <div class="row-text">
+            <div class="student-photo">
+            </div>
+            
+          </div>
+          <div class="row-text2">{{ student.name }}</div>
+          <div class="row-text3">
+            <div class="attendance">
+              <div 
+                class="circle" 
+                [class.present]="student.attendance === 'present'" 
+               
+                (click)="changeAttendance(student, 'present')">
+              </div>
+              <div 
+                class="circle" 
+                [class.late]="student.attendance === 'late'" 
+              
+                (click)="changeAttendance(student, 'late')">
+              </div>
+              <div 
+                class="circle" 
+                [class.absent]="student.attendance === 'absent'" 
+              
+                (click)="changeAttendance(student, 'absent')">
+              </div>
+            </div>
+          </div>
+          <div class="row-text">
+            <select [(ngModel)]="student.grade" class="grades">
+              <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+            </select>
+          </div>
+          <div class="row-text">
+            <select [(ngModel)]="student.crystals" (change)="onCrystalChange()" class="grades">
+              <option *ngFor="let crystal of crystals" [value]="crystal">{{ crystal }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="line"></div>
+      </div>
+    </div>
   </div>
 </div>
 <app-side-menu></app-side-menu>

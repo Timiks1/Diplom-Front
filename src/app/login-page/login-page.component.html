@@ -8,6 +8,7 @@
       id="username"
       name="username"
       placeholder="Login"
+      [(ngModel)]="username"
     />
 
     <input
@@ -16,6 +17,7 @@
       id="password"
       name="password"
       placeholder="Password"
+      [(ngModel)]="password"
     />
 
     <button class="enter-button" (click)="login()">Enter</button>
