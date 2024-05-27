@@ -7,6 +7,10 @@ import { SchedulePageComponent } from './schedule-page/schedule-page.component';
 import { NewsPageComponent } from './news-page/news-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ChatPageComponent } from './chat-page/chat-page.component';
+import { MaterialiPageComponent } from './materiali-page/materiali-page.component';
+import { LoadWorkPageComponent } from './load-work-page/load-work-page.component';
+import { IndividualPlanPageComponent } from './individual-plan-page/individual-plan-page.component';
+import { StudentsPageComponent } from './students-page/students-page.component';
 import { AuthGuard } from './AuthGuard'
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent }, // Страница входа
@@ -14,8 +18,11 @@ const routes: Routes = [
   { path: 'schedule', component: SchedulePageComponent , canActivate: [AuthGuard] }, // Страница присутствия
   { path: 'news', component: NewsPageComponent , canActivate: [AuthGuard] }, // Страница присутствия
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'materiali', component: MaterialiPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: 'chat', component: ChatPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
-
+  { path: 'load-work', component: LoadWorkPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'individual-plan', component: IndividualPlanPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'students', component: StudentsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: '**', redirectTo: '/login' }, // Перенаправление на страницу входа при неверном маршруте
 ];
 @NgModule({

@@ -16,22 +16,15 @@ export class LoginPageComponent {
 
   constructor(private serverService: ServerService, private router: Router) { }
 
-  
   login(): void {
-    this.serverService.login(this.username.trim(), this.password.trim())
-      .subscribe(
-        response => {
-          if (response && response.token) {
-            // Переход на следующую страницу (например, '/presense')
-            this.router.navigate(['/presence']);
-          } else {
-            console.error('Invalid response:', response);
-            // Добавьте обработку некорректного ответа здесь, если необходимо
-          }
-        },
-        error => {
-          console.error('Error occurred:', error); // Обработка ошибки
-        }
-      );
+    this.serverService.login(this.username, this.password).subscribe(
+      data => {
+        this.router.navigate(['/presence']);
+
+      },
+      error => {
+        console.error('Login failed:', error);
+      }
+    );
   }
 }

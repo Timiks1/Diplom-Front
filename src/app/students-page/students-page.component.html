@@ -1,0 +1,33 @@
+<div class="container">
+    <h1>Студенты</h1>
+    <div class="form-group">
+      <label for="groupSelect">Выберите группу:</label>
+      <select id="groupSelect" class="form-control" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+        <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
+      </select>
+    </div>
+    <div class="students-grid">
+      <div *ngFor="let student of students" class="student-card" (click)="onStudentClick(student)">
+        <div class="student-card-content">
+          <h2>{{ student.firstName }} {{ student.lastName }}</h2>
+          <p>{{ student.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Модальное окно для отображения информации о студенте -->
+  <div class="modal" *ngIf="selectedStudent">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseModal()">&times;</span>
+      <h2>{{ selectedStudent.firstName }} {{ selectedStudent.lastName }}</h2>
+      <p>Email: {{ selectedStudent.email }}</p>
+      <p>Телефон: {{ selectedStudent.phone }}</p>
+      <p>Адрес: {{ selectedStudent.address }}</p>
+      <p>Группа: {{ selectedStudent.group }}</p>
+      <h3>Оставить отзыв</h3>
+      <textarea [(ngModel)]="review.comment" placeholder="Введите отзыв"></textarea>
+      <button (click)="onSubmitReview()">Отправить</button>
+    </div>
+  </div>
+  

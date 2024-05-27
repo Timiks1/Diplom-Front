@@ -26,13 +26,23 @@
     <div class="day-name">Вс</div>
   </div>
   <div class="days">
-    <div class="day" *ngFor="let day of daysInMonth" (click)="showPopup(day)">
+    <div 
+      class="day" 
+      *ngFor="let day of daysInMonth" 
+      [class.has-lessons]="hasLessons(day)" 
+      (click)="showPopup(day)"
+    >
       {{ day }}
     </div>
   </div>
   <div class="popup" *ngIf="showPopupFlag">
     <!-- Здесь содержимое вашего всплывающего окна -->
-    <p>Выбран день {{ selectedDay }}</p>
+    <p>Уроки на день {{ selectedDay }}</p>
+    <ul>
+      <li *ngFor="let lesson of getLessonsForSelectedDay()">
+        {{ formatTime(lesson.time) }} - {{ lesson.lesson }} ({{ lesson.teacher }})
+      </li>
+    </ul>
     <button (click)="hidePopup()">Закрыть</button>
   </div>
 </div>

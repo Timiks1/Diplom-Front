@@ -4,6 +4,5 @@ export interface Student {
   name: string;
   present: boolean;
   grade: number;
-  crystals: number;
   attendance: 'present' | 'late' | 'absent';
 }

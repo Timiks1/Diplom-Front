@@ -3,10 +3,10 @@
   <div class="second-container">
     <div class="mini-container">
       <div>Выбрать урок</div>
-      <select class="selector">
-        <option value="value1">Пункт 3</option>
-        <option value="value2">Пункт 4</option>
-        <option value="value3">Пункт 5</option>
+      <select class="selector" [(ngModel)]="selectedLesson" (change)="onLessonChange()">
+        <option *ngFor="let lesson of lessons" [value]="lesson.time">
+          {{ lesson.lesson }} - {{ convertTime(lesson.time) }} - {{ lesson.groupName }}
+        </option>
       </select>
     </div>
     <div class="mini-container">
@@ -22,7 +22,7 @@
       <div class="row-text2">Фио</div>
       <div class="row-text3">Наличие</div>
       <div class="row-text">Оценка</div>
-      <div class="row-text">Кристал</div>
+   
     </div>
     <div class="line"></div>
     <div class="content">
@@ -61,15 +61,12 @@
               <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
             </select>
           </div>
-          <div class="row-text">
-            <select [(ngModel)]="student.crystals" (change)="onCrystalChange()" class="grades">
-              <option *ngFor="let crystal of crystals" [value]="crystal">{{ crystal }}</option>
-            </select>
-          </div>
+         
         </div>
         <div class="line"></div>
       </div>
     </div>
+    
   </div>
 </div>
 <app-side-menu></app-side-menu>

@@ -14,7 +14,11 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { HttpClientModule } from '@angular/common/http'; // Импорт модуля HttpClient
 import { TokenInterceptor } from "./token.interceptor"
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthGuard } from './AuthGuard'
+import { AuthGuard } from './AuthGuard';
+import { MaterialiPageComponent } from './materiali-page/materiali-page.component';
+import { LoadWorkPageComponent } from './load-work-page/load-work-page.component';
+import { IndividualPlanPageComponent } from './individual-plan-page/individual-plan-page.component';
+import { StudentsPageComponent } from './students-page/students-page.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { AuthGuard } from './AuthGuard'
     SchedulePageComponent,
     NewsPageComponent,
     ProfilePageComponent,
-    ChatPageComponent
+    ChatPageComponent,
+    MaterialiPageComponent,
+    LoadWorkPageComponent,
+    IndividualPlanPageComponent,
+    StudentsPageComponent
   ],
   imports: [
     BrowserModule,

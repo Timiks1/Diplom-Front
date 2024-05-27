@@ -3,18 +3,45 @@
   <div class="second-container">
     <div class="first-block">
       <div class="circle"></div>
-      <button class="upload">Завантажити фото</button>
+      <button class="upload" (click)="onUploadPhoto()">Завантажити фото</button>
     </div>
     <div class="second-block">
-      <input class="input" />
-      <input class="input" />
-      <input class="input" />
-      <input class="input" />
-      <button class="upload" id="save-button">Сберегти даннi</button>
+      <label for="firstName" class="form-label">Ім'я</label>
+      <input id="firstName" class="input" [(ngModel)]="profile.firstName" placeholder="Ім'я"/>
+      
+      <label for="lastName" class="form-label">Прізвище</label>
+      <input id="lastName" class="input" [(ngModel)]="profile.lastName" placeholder="Прізвище"/>
+      
+      <label for="email" class="form-label">Email</label>
+      <input id="email" class="input" [(ngModel)]="profile.email" placeholder="Email"/>
+      
+      <label for="phoneNumber" class="form-label">Телефон</label>
+      <input id="phoneNumber" class="input" [(ngModel)]="profile.phoneNumber" placeholder="Телефон"/>
+      
+      <button class="upload" id="save-button" (click)="onSave()">Сберегти даннi</button>
     </div>
     <div class="third-block">
-      <textarea class="big-input"></textarea>
-      <button class="upload" id="big-button">Сберегти iнформацiю</button>
+      <label for="departmentName" class="form-label">Назва відділу</label>
+      <textarea id="departmentName" class="big-input" [(ngModel)]="profile.departmentName" placeholder="Назва відділу"></textarea>
+      <button class="upload" id="big-button" (click)="onSave()">Сберегти iнформацiю</button>
+    </div>
+  </div>
+  <div class="certificates-section">
+    <h2>Сертифікати</h2>
+    <ul class="certificates-list">
+      <li *ngFor="let certificate of certificates">
+        {{ certificate.name }}
+        <button (click)="downloadCertificate(certificate.id)">Завантажити</button>
+        <button (click)="deleteCertificate(certificate.id)">Видалити</button>
+      </li>
+    </ul>
+    <div class="upload-section">
+      <label for="certificateName" class="form-label">Назва сертифіката</label>
+      <input type="text" id="certificateName" [(ngModel)]="certificateName" class="form-input"/>
+      
+      <label for="certificateFile" class="form-label">Завантажити сертифікат</label>
+      <input type="file" id="certificateFile" (change)="onCertificateSelected($event)" class="form-input"/>
+      <button class="upload" (click)="onUploadCertificate()">Завантажити</button>
     </div>
   </div>
 </div>
