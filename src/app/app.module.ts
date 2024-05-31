@@ -18,7 +18,8 @@ import { AuthGuard } from './AuthGuard';
 import { MaterialiPageComponent } from './materiali-page/materiali-page.component';
 import { LoadWorkPageComponent } from './load-work-page/load-work-page.component';
 import { IndividualPlanPageComponent } from './individual-plan-page/individual-plan-page.component';
-import { StudentsPageComponent } from './students-page/students-page.component'
+import { StudentsPageComponent } from './students-page/students-page.component';
+import { SylabusPageComponent } from './sylabus-page/sylabus-page.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { StudentsPageComponent } from './students-page/students-page.component'
     MaterialiPageComponent,
     LoadWorkPageComponent,
     IndividualPlanPageComponent,
-    StudentsPageComponent
+    StudentsPageComponent,
+    SylabusPageComponent
   ],
   imports: [
     BrowserModule,

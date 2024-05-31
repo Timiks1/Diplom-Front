@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Group } from './Models/group.model';
 import { Review } from './Models/review.model';
 import { Student } from './Models/student.model';
+import { Syllabus } from '../sylabus-page/syllabus.interface';
 @Injectable({
   providedIn: 'root'
 })
@@ -264,4 +265,33 @@ export class ServerService {
       })
     );
   }
+// Метод для получения дисциплин учителя
+getTeacherDisciplines(): Observable<any> {
+  const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
+  return this.http.get<any>(`${this.baseUrl}/Disciplines/GetByUserId/${teacherId}`)
+    .pipe(
+      map(response => response.items),
+      catchError(error => {
+        console.error('Error fetching teacher disciplines:', error);
+        return throwError(error);
+      })
+    );
+}
+uploadSyllabus(syllabus: Syllabus, fileName: string): Observable<any> {
+  const userId = this.currentUserValue.userId; // Получаем ID текущего пользователя
+  const formData = new FormData();
+  formData.append('file', new Blob([JSON.stringify(syllabus)], { type: 'application/json' }), fileName);
+
+  const params = new HttpParams()
+    .set('TeacherId', userId)
+    .set('Name', `${fileName}-${this.currentUserValue.lastName}`);
+
+  return this.http.post<any>(`${this.baseUrl}/Syllabi//create-from-json`, formData, { params }).pipe(
+    catchError(error => {
+      console.error('Error uploading syllabus:', error);
+      return throwError(error);
+    })
+  );
+}
+
 }
