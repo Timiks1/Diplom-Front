@@ -77,4 +77,10 @@ export interface News {
     name: string;
     file: string;
   }
-  
+  export interface TeacherTest {
+    id: string;
+    teacherId: string;
+    status: string;
+    testTheme: string;
+    testUrl: string;
+  }

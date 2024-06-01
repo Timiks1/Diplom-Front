@@ -1,0 +1,13 @@
+<!-- department-meetings-page.component.html -->
+<div class="container">
+    <h2>Заседания кафедры</h2>
+  
+    <div class="meetings-grid">
+      <div *ngFor="let meeting of meetings" class="meeting-item">
+        <h3>{{ meeting.name }}</h3>
+        <button class="btn btn-primary" (click)="downloadFile(meeting.file, meeting.name + '.docx')">Скачать файл</button>
+      </div>
+    </div>
+  </div>
+  
+<app-side-menu></app-side-menu>

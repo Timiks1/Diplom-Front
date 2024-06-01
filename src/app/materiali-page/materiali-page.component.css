@@ -1,48 +1,51 @@
+/* materials-page.component.css */
 .container {
-  margin: 20px;
-}
-
-.tabs {
-  display: flex;
-  border-bottom: 1px solid #ccc;
-}
-
-.tabs button {
-  background: none;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: border-bottom 0.3s;
-}
-
-.tabs button.active {
-  border-bottom: 2px solid #00bfff;
-}
-
-.tab-content {
+  background-color: #e6f0f3;
   padding: 20px;
+  border-radius: 10px;
+  min-height: 120vh;
 }
 
 .form-group {
- width: 20%;
-
+  margin-bottom: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group select {
+#disciplineSelect {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
 }
-.first-row{
+
+.lessons-list {
+  list-style: none;
+  padding: 0;
+}
+
+.lesson-item {
   display: flex;
-  width: 100%;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+
+.lesson-item span {
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
 }

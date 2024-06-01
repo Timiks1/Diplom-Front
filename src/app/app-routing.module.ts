@@ -12,6 +12,9 @@ import { LoadWorkPageComponent } from './load-work-page/load-work-page.component
 import { IndividualPlanPageComponent } from './individual-plan-page/individual-plan-page.component';
 import { SylabusPageComponent } from './sylabus-page/sylabus-page.component';
 import { StudentsPageComponent } from './students-page/students-page.component';
+import { TestsPageComponent } from './tests-page/tests-page.component';
+import { MeetingsPageComponent } from './meetings-page/meetings-page.component';
+import { ExchangeVisitsPageComponent } from './exchange-visits-page/exchange-visits-page.component';
 import { AuthGuard } from './AuthGuard'
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent }, // Страница входа
@@ -25,6 +28,9 @@ const routes: Routes = [
   { path: 'individual-plan', component: IndividualPlanPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: 'sylabus', component: SylabusPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: 'students', component: StudentsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'tests', component: TestsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'meetings', component: MeetingsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'exchange', component: ExchangeVisitsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: '**', redirectTo: '/login' }, // Перенаправление на страницу входа при неверном маршруте
 ];
 @NgModule({

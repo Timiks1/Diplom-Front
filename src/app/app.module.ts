@@ -19,7 +19,10 @@ import { MaterialiPageComponent } from './materiali-page/materiali-page.componen
 import { LoadWorkPageComponent } from './load-work-page/load-work-page.component';
 import { IndividualPlanPageComponent } from './individual-plan-page/individual-plan-page.component';
 import { StudentsPageComponent } from './students-page/students-page.component';
-import { SylabusPageComponent } from './sylabus-page/sylabus-page.component'
+import { SylabusPageComponent } from './sylabus-page/sylabus-page.component';
+import { TestsPageComponent } from './tests-page/tests-page.component';
+import { MeetingsPageComponent } from './meetings-page/meetings-page.component';
+import { ExchangeVisitsPageComponent } from './exchange-visits-page/exchange-visits-page.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { SylabusPageComponent } from './sylabus-page/sylabus-page.component'
     LoadWorkPageComponent,
     IndividualPlanPageComponent,
     StudentsPageComponent,
-    SylabusPageComponent
+    SylabusPageComponent,
+    TestsPageComponent,
+    MeetingsPageComponent,
+    ExchangeVisitsPageComponent
   ],
   imports: [
     BrowserModule,

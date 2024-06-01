@@ -1,0 +1,45 @@
+/* department-meetings-page.component.css */
+.container {
+    background-color: #e6f0f3;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 120vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .meetings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .meeting-item {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .meeting-item h3 {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  

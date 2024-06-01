@@ -1,0 +1,30 @@
+<!-- exchange-visits-page.component.html -->
+<div class="container">
+    <h2>Взаємовідвідування</h2>
+  
+    <div class="tabs">
+      <button (click)="setTab('plans')" [class.active]="selectedTab === 'plans'">Планы</button>
+      <button (click)="setTab('feedbacks')" [class.active]="selectedTab === 'feedbacks'">Отзывы</button>
+    </div>
+  
+    <div *ngIf="selectedTab === 'plans'" class="tab-content">
+      <h3>Загрузить шаблон</h3>
+      <div *ngFor="let file of templateFiles">
+        <button class="btn btn-primary" (click)="downloadFile(file.file, file.name)">Скачать {{ file.name }}</button>
+      </div>
+  
+      <h3>Отправить заполненный план</h3>
+      <input type="file" (change)="onFileSelected($event, 'plan')">
+      <button class="btn btn-primary" [disabled]="!selectedPlanFile" (click)="uploadFile('plan')">Отправить</button>
+    </div>
+  
+    <div *ngIf="selectedTab === 'feedbacks'" class="tab-content">
+      <h3>Отправить файл отзывов</h3>
+      <input type="file" (change)="onFileSelected($event, 'feedback')">
+      <button class="btn btn-primary" [disabled]="!selectedFeedbackFile" (click)="uploadFile('feedback')">Отправить</button>
+    </div>
+  </div>
+  
+  
+  <app-side-menu></app-side-menu>
+  

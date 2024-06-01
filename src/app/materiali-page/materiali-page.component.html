@@ -1,29 +1,24 @@
+<!-- materials-page.component.html -->
 <div class="container">
-    <div class="tabs">
-      <button (click)="selectTab('methodical')" [class.active]="selectedTab === 'methodical'">МЕТОДИЧНІ МАТЕРІАЛИ</button>
-      <button (click)="selectTab('my-materials')" [class.active]="selectedTab === 'my-materials'">МОЇ МАТЕРІАЛИ</button>
-    </div>
-    <div *ngIf="selectedTab === 'methodical'" class="tab-content">
-      <!-- Содержимое для "МЕТОДИЧНІ МАТЕРІАЛИ" -->
-    </div>
-    <div *ngIf="selectedTab === 'my-materials'" class="tab-content">
-        <div class="first-row">
-      
-      <div class="form-group">
-        <label>Оберіть напрямок</label>
-        <select>
-          <!-- Опции -->
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Оберіть методпакет</label>
-        <select>
-          <!-- Опции -->
-        </select>
-      </div>
-    
-    </div>
-    </div>
+  <h2>Материалы</h2>
+
+  <div class="form-group">
+    <label for="disciplineSelect">Выберите дисциплину</label>
+    <select id="disciplineSelect" class="form-control" (change)="onDisciplineChange($event)">
+      <option *ngFor="let discipline of disciplines" [value]="discipline.id">
+        {{ discipline.name }}
+      </option>
+    </select>
   </div>
-  
+
+  <div *ngIf="selectedDiscipline">
+    <h3>{{ selectedDiscipline.name }}</h3>
+    <ul class="lessons-list">
+      <li *ngFor="let lesson of lessonsPlaceholder" class="lesson-item">
+        <span>{{ lesson.name }}</span>
+        <button class="btn btn-primary" (click)="addMaterial(lesson.id)">Добавить материалы</button>
+      </li>
+    </ul>
+  </div>
+</div>
 <app-side-menu></app-side-menu>
