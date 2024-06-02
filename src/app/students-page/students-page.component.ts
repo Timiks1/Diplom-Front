@@ -2,53 +2,43 @@ import { Component } from '@angular/core';
 import { ServerService } from '../Server/server.service';
 import { Group } from '../Server/Models/group.model';
 import { Review } from '../Server/Models/review.model';
-import { Student } from '../Server/Models/student.model';
+import { Student } from '../Server/Models/Student.model';
 @Component({
   selector: 'app-students-page',
   templateUrl: './students-page.component.html',
   styleUrls: ['./students-page.component.css']
 })
 export class StudentsPageComponent {
-  groups: Group[] = [];
-  students: Student[] = [];
-  selectedGroup: string = '';
-  selectedStudent: Student | null = null;
-  review: Review = { teacherId: '', studentId: '', comment: '', discipline: '' };
+  studentGroups: Group[] = [];
+  selectedGroup: Group | null = null;
+  filteredStudents: Student[] = [];
+  allStudents: Student[] = [];
 
   constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
-    this.getGroups();
+    this.serverService.getStudentsGroups().subscribe(
+      (data: any) => {
+        this.studentGroups = data.items;
+        this.allStudents = this.studentGroups.flatMap(group => group.students);
+        this.filteredStudents = [...this.allStudents];
+      },
+      (error) => {
+        console.error('Error fetching student groups:', error);
+      }
+    );
   }
 
-  getGroups(): void {
-    this.serverService.getGroups().subscribe(groups => {
-      this.groups = groups;
-    });
+  onGroupChange(event: any): void {
+    const selectedGroupId = event.target.value;
+    this.selectedGroup = this.studentGroups.find(group => group.id === selectedGroupId) || null;
+    this.filteredStudents = this.selectedGroup ? this.selectedGroup.students : this.allStudents;
   }
 
-  onGroupChange(): void {
-    this.serverService.getStudentsByGroup(this.selectedGroup).subscribe(students => {
-      this.students = students;
-    });
-  }
-
-  onStudentClick(student: Student): void {
-    this.selectedStudent = student;
-    this.review.studentId = student.id;
-  }
-
-  onCloseModal(): void {
-    this.selectedStudent = null;
-  }
-
-  onSubmitReview(): void {
-    this.review.teacherId = this.serverService.currentUserValue.userId;
-    this.serverService.addReview(this.review).subscribe(response => {
-      console.log('Review submitted:', response);
-      this.onCloseModal();
-    }, error => {
-      console.error('Error submitting review:', error);
-    });
+  onSearch(event: any): void {
+    const searchTerm = event.target.value.toLowerCase();
+    this.filteredStudents = this.allStudents.filter(student =>
+      `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm)
+    );
   }
 }

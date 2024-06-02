@@ -7,7 +7,6 @@ import { User } from './user.interface'; // Импортируем интерф�
 import { v4 as uuidv4 } from 'uuid'; 
 import { Group } from './Models/group.model';
 import { Review } from './Models/review.model';
-import { Student } from './Models/student.model';
 import { Syllabus } from '../sylabus-page/syllabus.interface';
 @Injectable({
   providedIn: 'root'
@@ -246,25 +245,9 @@ export class ServerService {
     );
   }
 
-  getStudentsByGroup(groupId: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.baseUrl}/students`, {
-      params: new HttpParams().set('groupId', groupId)
-    }).pipe(
-      catchError(error => {
-        console.error('Error fetching students:', error);
-        return throwError(error);
-      })
-    );
-  }
+  
 
-  addReview(review: Review): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/reviews`, review).pipe(
-      catchError(error => {
-        console.error('Error adding review:', error);
-        return throwError(error);
-      })
-    );
-  }
+
 // Метод для получения дисциплин учителя
 getTeacherDisciplines(): Observable<any> {
   const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
@@ -277,16 +260,18 @@ getTeacherDisciplines(): Observable<any> {
       })
     );
 }
-getLessonsByDiscipline(disciplineId: string): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/Lessons`, {
-    params: new HttpParams().set('disciplineId', disciplineId)
+getLessonsByDiscipline(subjectName: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Lessons/GetBySubjectName`, {
+    params: new HttpParams().set('subjectName', subjectName)
   }).pipe(
+    map(response => response.items),
     catchError(error => {
       console.error('Error fetching lessons:', error);
       return throwError(error);
     })
   );
 }
+
 uploadSyllabus(syllabus: Syllabus, fileName: string): Observable<any> {
   const userId = this.currentUserValue.userId; // Получаем ID текущего пользователя
   const formData = new FormData();
@@ -376,6 +361,23 @@ uploadExchangeVisitFile(file: File, teacherId: string, fileName: string): Observ
 
 generateUUID(): string {
   return uuidv4();
+}
+getStudentsGroups(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/StudentsGroups`)
+    .pipe(
+      catchError(error => {
+        console.error('Error fetching student groups:', error);
+        return throwError(error);
+      })
+    );
+}
+addReview(review: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/Reviews`, review).pipe(
+    catchError(error => {
+      console.error('Error adding review:', error);
+      return throwError(error);
+    })
+  );
 }
 
 }

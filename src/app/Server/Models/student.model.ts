@@ -1,11 +1,15 @@
 export interface Student {
     id: string;
+    userName: string;
+    email: string;
+    password: string | null;
+    departmentEmail: string;
+    phoneNumber: string;
     firstName: string;
     lastName: string;
-    phone: string;
-    email: string;
-    address: string;
-    photo: string;
-    group: string;
+    departmentName: string | null;
+    groupName: string | null;
+    departmentId: string;
+    groupId: string | null;
   }
   

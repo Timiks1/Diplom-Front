@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>{{ mode === 'classwork' ? 'Classwork' : 'Homework' }}</h2>
+    <div class="selectors">
+      <label for="groupSelect">Select Group:</label>
+      <select id="groupSelect" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+        <option *ngFor="let group of groups" [ngValue]="group">{{ group.name }}</option>
+      </select>
+  
+      <label for="disciplineSelect">Select Discipline:</label>
+      <select id="disciplineSelect" [(ngModel)]="selectedDiscipline" (change)="onDisciplineChange()">
+        <option *ngFor="let discipline of disciplines" [ngValue]="discipline">{{ discipline.name }}</option>
+      </select>
+    </div>
+  
+    <div class="mode-switch">
+      <button (click)="switchMode('classwork')" [class.active]="mode === 'classwork'">Classwork</button>
+      <button (click)="switchMode('homework')" [class.active]="mode === 'homework'">Homework</button>
+    </div>
+  
+    <div class="content">
+      <div class="students-list">
+        <h3>Students</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th *ngFor="let lesson of lessons">{{ lesson.lessonName }} - {{ lesson.date | date: 'shortDate' }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>{{ student.firstName }} {{ student.lastName }}</td>
+              <td *ngFor="let lesson of lessons">
+                {{ getStudentGrade(student.id, lesson) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <app-side-menu></app-side-menu>
+  
