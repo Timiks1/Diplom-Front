@@ -7,7 +7,7 @@ import { Lesson, StudentAttendance } from '../Server/Models/lesson.model';
 @Component({
   selector: 'app-homework-page',
   templateUrl: './homework-page.component.html',
-  styleUrls: ['./homework-page.component.css']
+  styleUrls: ['./homework-page.component.css'],
 })
 export class HomeworkPageComponent {
   groups: Group[] = [];
@@ -21,7 +21,7 @@ export class HomeworkPageComponent {
   constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
-    this.serverService.getStudentsGroups().subscribe(groups => {
+    this.serverService.getStudentsGroups().subscribe((groups) => {
       this.groups = groups.items;
       if (this.groups.length > 0) {
         this.selectedGroup = this.groups[0];
@@ -43,9 +43,11 @@ export class HomeworkPageComponent {
 
   onDisciplineChange(): void {
     if (this.selectedDiscipline) {
-      this.serverService.getLessonsByDiscipline(this.selectedDiscipline.name).subscribe(lessons => {
-        this.lessons = lessons.items;
-      });
+      this.serverService
+        .getLessonsByDiscipline(this.selectedDiscipline.name)
+        .subscribe((response) => {
+          this.lessons = response.items;
+        });
     }
   }
 
@@ -54,7 +56,24 @@ export class HomeworkPageComponent {
   }
 
   getStudentGrade(studentId: string, lesson: Lesson): number | string {
-    const attendance = lesson.studentAttendances.find((a: StudentAttendance) => a.studentId === studentId);
+    const attendance = lesson.studentAttendances.find(
+      (a: StudentAttendance) => a.studentId === studentId
+    );
     return attendance ? attendance.grade : '-';
+  }
+
+  onGradeInput(event: Event, studentId: string, lesson: Lesson): void {
+    const inputElement = event.target as HTMLInputElement;
+    const grade = parseInt(inputElement.value, 10);
+    this.setStudentGrade(studentId, lesson, grade);
+  }
+
+  setStudentGrade(studentId: string, lesson: Lesson, grade: number): void {
+    const attendance = lesson.studentAttendances.find(
+      (a: StudentAttendance) => a.studentId === studentId
+    );
+    if (attendance) {
+      attendance.grade = grade;
+    }
   }
 }

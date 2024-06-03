@@ -1,50 +1,87 @@
 .container {
-    background-color: #e6f0f3;
-    height: 120vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .selectors {
-    margin-top: 1rem;
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .mode-switch {
-    margin-top: 1rem;
-  }
-  
-  .mode-switch button {
-    padding: 0.5rem 1rem;
-    margin-right: 1rem;
-  }
-  
-  .mode-switch button.active {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .content {
-    margin-top: 1rem;
-    display: flex;
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .students-list {
-    width: 100%;
-  }
-  
-  .students-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .students-list th, .students-list td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    text-align: center;
-  }
-  
+  background-color: #e6f0f3;
+  height: 120vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.selectors {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 20px;
+}
+
+.selectors label {
+  margin-right: 10px;
+}
+
+.selectors select {
+  margin-right: 20px;
+}
+
+.mode-switch {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.mode-switch button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #ccc;
+  color: #000;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.mode-switch button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.students-list {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.students-list h3 {
+  margin-bottom: 20px;
+}
+
+.students-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-list th,
+.students-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.students-list th {
+  background-color: #f2f2f2;
+}
+
+.students-list td {
+  background-color: #f9f9f9;
+}
+
+.students-list td input {
+  width: 50px;
+  text-align: center;
+}
