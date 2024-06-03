@@ -9,6 +9,8 @@ import { Group } from './Models/group.model';
 import { Review } from './Models/review.model';
 import { Syllabus } from '../sylabus-page/syllabus.interface';
 import { Lesson } from './Models/lesson.model';
+import { StudentAttendance } from './Models/lesson.model';
+import { HomeWork } from './Models/HomeWork.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -458,4 +460,71 @@ export class ServerService {
       })
     );
   }
+  updateStudentAttendance(attendanceId: string, attendance: StudentAttendance): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/StudentAttendances/${attendanceId}`, attendance).pipe(
+      catchError(error => {
+        console.error('Error updating student attendance:', error);
+        return throwError(error);
+      })
+    );
+  }
+  getHomeWorksByStudentId(studentId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/HomeWorks/GetByStudentId/${studentId}`).pipe(
+      catchError(error => {
+        console.error('Error fetching homeworks:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  updateHomework(id: string, homework: HomeWork): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/HomeWorks/${id}`, homework).pipe(
+      catchError(error => {
+        console.error('Error updating homework:', error);
+        return throwError(error);
+      })
+    );
+  }
+  gradeHomework(homeworkId: string, grade: number): Observable<any> {
+    const url = `${this.baseUrl}/HomeWorks/GradeAsync/${homeworkId}/${grade}`;
+    return this.http.put<any>(url, {}).pipe(
+      catchError(error => {
+        console.error('Error grading homework:', error);
+        return throwError(error);
+      })
+    );
+  }
+  addHomework(homework: HomeWork): Observable<any> {
+    const formData = new FormData();
+    formData.append('Id', homework.id);
+    formData.append('Name', homework.name);
+    formData.append('Description', homework.description);
+    formData.append('Comment', homework.comment || '');
+    formData.append('Answer', homework.answer || '');
+    formData.append('IsChecked', homework.isChecked.toString());
+    formData.append('Grade', homework.grade.toString());
+    formData.append('StudentId', homework.studentId);
+    formData.append('DisciplineId', homework.disciplineId);
+    formData.append('TeacherId', homework.teacherId);
+
+    // Добавьте файл в FormData
+    if (homework.file) {
+        const byteCharacters = atob(homework.file);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+        formData.append('File', blob, `${homework.name}.file`);
+    }
+
+    return this.http.post<any>(`${this.baseUrl}/HomeWorks`, formData).pipe(
+        catchError(error => {
+            console.error('Error adding homework:', error);
+            return throwError(error);
+        })
+    );
+}
+
 }

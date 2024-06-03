@@ -1,71 +1,86 @@
 <div class="container">
-  <h2>{{ mode === "classwork" ? "Classwork" : "Homework" }}</h2>
-  <div class="selectors">
-    <label for="groupSelect">Select Group:</label>
-    <select
-      id="groupSelect"
-      [(ngModel)]="selectedGroup"
-      (change)="onGroupChange()"
-    >
-      <option *ngFor="let group of groups" [ngValue]="group">
-        {{ group.name }}
-      </option>
-    </select>
-
-    <label for="disciplineSelect">Select Discipline:</label>
-    <select
-      id="disciplineSelect"
-      [(ngModel)]="selectedDiscipline"
-      (change)="onDisciplineChange()"
-    >
-      <option *ngFor="let discipline of disciplines" [ngValue]="discipline">
-        {{ discipline.name }}
-      </option>
-    </select>
-  </div>
-
-  <div class="mode-switch">
-    <button
-      (click)="switchMode('classwork')"
-      [class.active]="mode === 'classwork'"
-    >
-      Classwork
-    </button>
-    <button
-      (click)="switchMode('homework')"
-      [class.active]="mode === 'homework'"
-    >
-      Homework
-    </button>
-  </div>
-
-  <div class="content">
-    <div class="students-list">
-      <h3>Students</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ПІБ студента</th>
-            <th *ngFor="let lesson of lessons">
-              {{ lesson.lessonName }} - {{ lesson.date | date : "shortDate" }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of students">
-            <td>{{ student.firstName }} {{ student.lastName }}</td>
-            <td *ngFor="let lesson of lessons">
-              <input
-                type="number"
-                [value]="getStudentGrade(student.id, lesson)"
-                (input)="onGradeInput($event, student.id, lesson)"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <h2>{{ mode === "classwork" ? "Classwork" : "Homework" }}</h2>
+    <div class="selectors">
+      <label for="groupSelect">Select Group:</label>
+      <select id="groupSelect" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+        <option *ngFor="let group of groups" [ngValue]="group">{{ group.name }}</option>
+      </select>
+  
+      <label for="disciplineSelect">Select Discipline:</label>
+      <select id="disciplineSelect" [(ngModel)]="selectedDiscipline" (change)="onDisciplineChange()">
+        <option *ngFor="let discipline of disciplines" [ngValue]="discipline">{{ discipline.name }}</option>
+      </select>
+    </div>
+  
+    <div class="mode-switch">
+      <button (click)="switchMode('classwork')" [class.active]="mode === 'classwork'">Classwork</button>
+      <button (click)="switchMode('homework')" [class.active]="mode === 'homework'">Homework</button>
+    </div>
+  
+    <button (click)="openAddHomeworkModal()">Add Homework</button>
+  
+    <div class="content">
+      <div class="students-list">
+        <h3>Students</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ПІБ студента</th>
+                <th *ngFor="let lesson of lessons">{{ lesson.lessonName }} - {{ lesson.date | date : "shortDate" }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students">
+                <td>{{ student.firstName }} {{ student.lastName }}</td>
+                <td *ngFor="let lesson of lessons">
+                  <input *ngIf="mode === 'classwork'"
+                    type="number"
+                    min="1"
+                    max="100"
+                    [value]="getStudentGrade(student.id, lesson)"
+                    (input)="onGradeInput($event, student.id, lesson)"
+                  />
+                  <div *ngIf="mode === 'homework'">
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        [value]="getStudentHomeworkGrade(student.id, lesson)"
+                        (input)="onHomeworkGradeInput($event, student.id, lesson)"
+                      />
+                      <button (click)="downloadHomework(student.id, lesson)">Download</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<app-side-menu></app-side-menu>
+  
+  <app-side-menu></app-side-menu>
+  
+  <!-- Add Homework Modal -->
+  <div class="modal" *ngIf="isAddHomeworkModalOpen">
+    <div class="modal-content">
+      <span class="close" (click)="closeAddHomeworkModal()">&times;</span>
+      <h2>Add Homework</h2>
+      <form (ngSubmit)="onAddHomeworkSubmit()">
+        <label for="homeworkDescription">Description:</label>
+        <input id="homeworkDescription" [(ngModel)]="newHomework.description" name="description" required>
+        
+        <label for="lessonSelect">Select Lesson:</label>
+        <select id="lessonSelect" [(ngModel)]="newHomework.lessonId" name="lesson" required>
+          <option *ngFor="let lesson of lessons" [ngValue]="lesson.id">{{ lesson.lessonName }}</option>
+        </select>
+        
+        <label for="fileInput">Upload File:</label>
+        <input type="file" id="fileInput" (change)="onFileSelected($event)">
+        
+        <button type="submit">Add Homework</button>
+      </form>
+    </div>
+  </div>
+  
