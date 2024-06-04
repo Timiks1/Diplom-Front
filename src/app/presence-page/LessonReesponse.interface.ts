@@ -1,7 +1,7 @@
 export interface LessonResponse {
     id: string;
     departmentId: string | null;
-    name: string | null;
+    name: string 
     file: string | null;
     teacherId: string;
     date: string;
@@ -10,4 +10,6 @@ export interface LessonResponse {
     time: string;
     description: string;
     groupName: string;
+    lessonId:string;
+    studentGroupId : string;
   }

@@ -1,3 +1,41 @@
+/* Стили для модального окна */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Остальные стили */
 .container {
   background-color: #e6f0f3;
   height: 120vh;
@@ -48,7 +86,6 @@
   border-radius: 10px;
   border: solid 1px;
   overflow-y: auto; /* Добавляем прокрутку */
-
 }
 
 .first-row {
@@ -57,10 +94,12 @@
   margin-bottom: 10px;
   padding: 10px;
 }
-.row-text{
+
+.row-text {
   display: flex;
   justify-content: center;
 }
+
 .row-text, .row-text2, .row-text3 {
   font-size: larger;
 }
@@ -84,7 +123,6 @@
 }
 
 .student-photo {
-  
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -97,14 +135,13 @@
   border-radius: 50%;
 }
 
-
-
 .row-text, .row-text2, .row-text3 {
   text-align: center;
   width: 20%;
 }
-.grades{
-  width:30%;
+
+.grades {
+  width: 10%;
   height: 25px;
   border: black 1px solid;
   border-radius: 10%;
@@ -112,6 +149,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .attendance {
   display: flex;
   justify-content: center;

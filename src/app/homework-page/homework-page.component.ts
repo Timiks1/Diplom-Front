@@ -48,7 +48,9 @@ export class HomeworkPageComponent {
   onDisciplineChange(): void {
     if (this.selectedDiscipline) {
       this.serverService.getLessonsByDiscipline(this.selectedDiscipline.name).subscribe((response) => {
+        
         this.lessons = response.items;
+      
       });
 
       this.students.forEach(student => {

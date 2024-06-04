@@ -15,7 +15,7 @@ import { HomeWork } from './Models/HomeWork.model';
   providedIn: 'root',
 })
 export class ServerService {
-  private baseUrl: string = 'http://localhost:5008/api'; // URL вашего сервера
+  private baseUrl: string = 'https://localhost:7247/api'; // URL вашего сервера
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
@@ -526,5 +526,36 @@ export class ServerService {
         })
     );
 }
-
+getGroupById(groupId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/StudentsGroups/${groupId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching group:', error);
+      return throwError(error);
+    })
+  );
+}
+getLessonById(lessonId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Lessons/${lessonId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching lesson:', error);
+      return throwError(error);
+    })
+  );
+}
+updateLesson(lessonId: string, lesson: Lesson): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/Lessons/${lessonId}`, lesson).pipe(
+    catchError(error => {
+      console.error('Error updating lesson:', error);
+      return throwError(error);
+    })
+  );
+}
+createLesson(lesson: Lesson): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/Lessons`, lesson).pipe(
+    catchError(error => {
+      console.error('Error creating lesson:', error);
+      return throwError(error);
+    })
+  );
+}
 }
