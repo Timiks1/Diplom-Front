@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { Group } from '../Server/Models/group.model';
 import { v4 as uuidv4 } from 'uuid';
 import { StudentAttendance,Lesson } from '../Server/Models/lesson.model';
+import { HomeWork } from '../Server/Models/HomeWork.model';
 @Component({
   selector: 'app-presence-page',
   templateUrl: './presence-page.component.html',
@@ -30,7 +31,8 @@ export class PresencePageComponent {
   isModalOpen = false; // Переменная для управления состоянием модального окна
   homeworkDescription = ''; // Поле для описания домашнего задания
   selectedFile: File | null = null; // Поле для выбранного файла
-
+  disciplineId : string ="";
+  lessonId : string = "";
   constructor(private serverService: ServerService) {
     this.getScheduleForCurrentUserAndDay();
   }
@@ -75,8 +77,9 @@ export class PresencePageComponent {
   }
 
   onLessonChange(event: any) {
-    const lessonId = event.target.value;
-    this.selectedLesson = this.lessons.find(lesson => lesson.lesson === lessonId) || null;
+    const lessonName = event.target.value;
+    this.lessonId = uuidv4();
+    this.selectedLesson = this.lessons.find(lesson => lesson.lesson === lessonName) || null;
     console.log('Selected lesson:', this.selectedLesson);
     if (this.selectedLesson) {
       this.selectedGroup = this.groups.find(gr => gr.id === this.selectedLesson?.studentGroupId);
@@ -95,13 +98,13 @@ export class PresencePageComponent {
       isPresent: false,
       isLate: false,
       grade: 0,
-      lessonId: this.selectedLesson?.lessonId || ''
+      lessonId: this.lessonId
     }));
   }
   createLessonDetails() {
     if (this.selectedLesson) {
       this.lessonDetails = {
-        id: uuidv4(),
+        id: this.lessonId,
         date: new Date().toISOString(), // Или используйте другую дату, если нужно
         subjectName: this.selectedLesson.description,
         lessonName: this.selectedLesson.lesson,
@@ -165,15 +168,46 @@ export class PresencePageComponent {
   }
 
   onAddHomeworkSubmit() {
-    if (this.lessonDetails && this.selectedFile) {
-      this.lessonDetails.homeWorkId = this.selectedFile.name;
-      // Загрузите файл на сервер или выполните необходимые действия
-      console.log('Homework Description:', this.homeworkDescription);
-      console.log('Selected File:', this.selectedFile);
-      this.saveLessonDetails();
-      this.closeModal();
+    if (this.selectedLesson && this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileBase64 = reader.result?.toString().split(',')[1];
+        if (fileBase64) {
+          this.students.forEach(student => {
+            const homework: HomeWork = {
+              id: uuidv4(),
+              name: this.selectedLesson?.lesson || '',
+              description: this.homeworkDescription,
+              studentName: `${student.firstName} ${student.lastName}`,
+              teacherName: this.serverService.currentUserValue.userName,
+              disciplineName: this.selectedLesson?.description || '',
+              file: fileBase64,
+              isChecked: false,
+              grade: 0,
+              studentId: student.id,
+              disciplineId: this.selectedLesson?.disciplineId || '', // Добавьте правильное значение, если оно доступно
+              teacherId: this.serverService.currentUserValue.userId,
+            };
+
+            this.serverService.addHomework(homework).subscribe(
+              (response) => {
+                console.log('Homework added successfully for student:', student.id);
+              },
+              (error) => {
+                console.error('Error adding homework for student:', student.id, error);
+              }
+            );
+          });
+
+          this.closeModal();
+        }
+      };
+      reader.readAsDataURL(this.selectedFile);
+    } else {
+      console.error('All fields are required');
     }
   }
-
-
 }
+
+
+

@@ -1,15 +1,26 @@
 <div class="main-container">
-    <div class="container">
-      <h1>Индивидуальный план</h1>
-      <button (click)="downloadTemplate()" class="btn btn-secondary">Скачать шаблон плана</button>
-      <form (ngSubmit)="onSubmit()" #uploadForm="ngForm">
-        <div class="form-group">
-          <label for="file" class="form-label">Выберите заполненный план</label>
-          <input type="file" id="file" (change)="onFileSelected($event)" required class="form-input"/>
-        </div>
-        <button type="submit" class="btn btn-primary">Загрузить план</button>
-      </form>
-    </div>
+  <div class="container">
+    <h1>Индивидуальный план</h1>
+    <button (click)="downloadIndividualPlanTemplate()" class="btn btn-secondary">Скачать шаблон индивидуального плана</button>
+    <form (ngSubmit)="onSubmitIndividualPlan()" #uploadIndividualPlanForm="ngForm">
+      <div class="form-group">
+        <label for="individualPlanFile" class="form-label">Выберите заполненный индивидуальный план</label>
+        <input type="file" id="individualPlanFile" (change)="onIndividualPlanFileSelected($event)" required class="form-input"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Загрузить индивидуальный план</button>
+    </form>
   </div>
-  
+  <div class="container">
+    <h1>План повышения квалификации</h1>
+    <button (click)="downloadDevelopmentPlanTemplate()" class="btn btn-secondary">Скачать шаблон плана повышения квалификации</button>
+    <form (ngSubmit)="onSubmitDevelopmentPlan()" #uploadDevelopmentPlanForm="ngForm">
+      <div class="form-group">
+        <label for="developmentPlanFile" class="form-label">Выберите заполненный план повышения квалификации</label>
+        <input type="file" id="developmentPlanFile" (change)="onDevelopmentPlanFileSelected($event)" required class="form-input"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Загрузить план повышения квалификации</button>
+    </form>
+  </div>
+</div>
+
 <app-side-menu></app-side-menu>

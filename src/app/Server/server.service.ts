@@ -134,6 +134,17 @@ export class ServerService {
       }
     );
   }
+  getTestScheduleForCurrentUser(month: string, year: string): Observable<any> {
+    const fileName = `${month}.${year}.tests`;
+
+    const userId = this.currentUserValue.userId;
+    return this.http.get<any>(`${this.baseUrl}/schedules/teacher-schedule`, {
+      params: {
+        fileName: fileName,
+        teacherId: userId,
+      },
+    });
+  }
   // Метод для получения текущего пользователя
   getCurrentUser(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/Identity/GetCurrentUser`);
@@ -557,5 +568,40 @@ createLesson(lesson: Lesson): Observable<any> {
       return throwError(error);
     })
   );
+}
+uploadDevelopmentPlan(file: File): Observable<any> {
+  const userId = this.currentUserValue.userId;
+  const userName = this.currentUserValue.userName;
+  const now = new Date();
+  const fileName = `0${now.getMonth() + 1}.${now.getFullYear()}-DevelopmentPlan-${userName}`;
+  const formData = new FormData();
+  formData.append('file', file, fileName);
+
+  const params = new HttpParams()
+    .set('Id', uuidv4())
+    .set('TeacherId', userId)
+    .set('Name', fileName);
+
+  return this.http
+    .post<any>(`${this.baseUrl}/DevelopmentPlans`, formData, { params })
+    .pipe(
+      catchError((error) => {
+        console.error('Ошибка загрузки файла:', error);
+        return throwError(error);
+      })
+    );
+}
+downloadDevelopmentPlanTemplate(): Observable<Blob> {
+  const templateId = '4d82beb4-5e7b-48e6-b084-5bdc485bc1e7';
+  return this.http
+    .get(`${this.baseUrl}/DevelopmentPlans/${templateId}`, {
+      responseType: 'blob',
+    })
+    .pipe(
+      catchError((error) => {
+        console.error('Error downloading development plan template:', error);
+        return throwError(error);
+      })
+    );
 }
 }

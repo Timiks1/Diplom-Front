@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ServerService } from '../Server/server.service';
-
 @Component({
-  selector: 'app-schedule-page',
-  templateUrl: './schedule-page.component.html',
-  styleUrls: ['./schedule-page.component.css'],
+  selector: 'app-tests-schedule-page',
+  templateUrl: './tests-schedule-page.component.html',
+  styleUrls: ['./tests-schedule-page.component.css']
 })
-export class SchedulePageComponent implements OnInit {
+export class TestsSchedulePageComponent {
   daysInMonth: (number | null)[] = [];
   currentMonth: string = '';
   currentYear: number = 0;
@@ -29,7 +28,7 @@ export class SchedulePageComponent implements OnInit {
     const month = (this.currentDate.getMonth() + 1).toString().padStart(2, '0'); // Месяц от 0 до 11, поэтому добавляем 1
     const year = this.currentDate.getFullYear().toString();
 
-    this.serverService.getScheduleForCurrentUser(month, year).subscribe(
+    this.serverService.getTestScheduleForCurrentUser(month, year).subscribe(
       data => {
         this.schedule = data;
         this.processSchedule();

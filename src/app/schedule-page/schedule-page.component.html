@@ -30,7 +30,7 @@
       class="day" 
       *ngFor="let day of daysInMonth" 
       [class.has-lessons]="hasLessons(day)" 
-      (click)="showPopup(day)"
+      (click)="day ? showPopup(day) : null"
     >
       {{ day }}
     </div>

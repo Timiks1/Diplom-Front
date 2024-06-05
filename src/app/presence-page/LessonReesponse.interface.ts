@@ -12,4 +12,5 @@ export interface LessonResponse {
     groupName: string;
     lessonId:string;
     studentGroupId : string;
+    disciplineId : string;
   }

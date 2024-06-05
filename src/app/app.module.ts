@@ -24,7 +24,8 @@ import { TestsPageComponent } from './tests-page/tests-page.component';
 import { MeetingsPageComponent } from './meetings-page/meetings-page.component';
 import { ExchangeVisitsPageComponent } from './exchange-visits-page/exchange-visits-page.component';
 import { StudentCardComponent } from './student-card/student-card.component';
-import { HomeworkPageComponent } from './homework-page/homework-page.component'
+import { HomeworkPageComponent } from './homework-page/homework-page.component';
+import { TestsSchedulePageComponent } from './tests-schedule-page/tests-schedule-page.component'
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { HomeworkPageComponent } from './homework-page/homework-page.component'
     MeetingsPageComponent,
     ExchangeVisitsPageComponent,
     StudentCardComponent,
-    HomeworkPageComponent
+    HomeworkPageComponent,
+    TestsSchedulePageComponent
   ],
   imports: [
     BrowserModule,
