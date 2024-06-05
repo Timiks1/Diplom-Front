@@ -84,9 +84,10 @@ export class SchedulePageComponent implements OnInit {
 
   getMonthName(monthIndex: number): string {
     const monthNames = [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь',
+      'Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
+      'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень',
     ];
+    
     return monthNames[monthIndex];
   }
 

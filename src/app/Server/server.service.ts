@@ -11,6 +11,7 @@ import { Syllabus } from '../sylabus-page/syllabus.interface';
 import { Lesson } from './Models/lesson.model';
 import { StudentAttendance } from './Models/lesson.model';
 import { HomeWork } from './Models/HomeWork.model';
+import { Exam } from './Models/Exam.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -604,4 +605,22 @@ downloadDevelopmentPlanTemplate(): Observable<Blob> {
       })
     );
 }
+getExamsByDiscipline(disciplineId: string): Observable<Exam[]> {
+  return this.http.get<Exam[]>(`${this.baseUrl}/StudentExams/by-discipline/${disciplineId}`).pipe(
+    catchError((error) => {
+      console.error('Error fetching exams:', error);
+      return throwError(error);
+    })
+  );
+}
+updateStudentExamGrade(examId: string, exam: Exam): Observable<any> {
+  console.log(exam)
+  return this.http.put<any>(`${this.baseUrl}/StudentExams/${examId}`, exam).pipe(
+    catchError(error => {
+      console.error('Error updating exam grade:', error);
+      return throwError(error);
+    })
+  );
+}
+
 }
