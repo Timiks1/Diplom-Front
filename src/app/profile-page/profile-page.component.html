@@ -20,14 +20,11 @@
       
       <button class="upload" id="save-button" (click)="onSave()">Сберегти даннi</button>
     </div>
-    <div class="third-block">
-      <label for="departmentName" class="form-label">Назва відділу</label>
-      <textarea id="departmentName" class="big-input" [(ngModel)]="profile.departmentName" placeholder="Назва відділу"></textarea>
-      <button class="upload" id="big-button" (click)="onSave()">Сберегти iнформацiю</button>
-    </div>
+ 
   </div>
   <div class="certificates-section">
-    <h2>Сертифікати</h2>
+    <h2>
+      Документи, що підтверджують кваліфікацію викладача</h2>
     <ul class="certificates-list">
       <li *ngFor="let certificate of certificates">
         {{ certificate.name }}

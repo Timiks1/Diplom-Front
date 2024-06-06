@@ -2,6 +2,7 @@
     <div class="student-info">
       <h3>{{ student.firstName }} {{ student.lastName }}</h3>
       <p>Email: {{ student.email }}</p>
+      <button (click)="openReviewModal()">Посмотреть отзывы</button>
       <button (click)="openModal()">Add Review</button>
     </div>
   
@@ -9,13 +10,31 @@
       <div class="modal-content">
         <span class="close" (click)="closeModal()">&times;</span>
         <h2>Add Review</h2>
-        <label for="discipline">Discipline:</label>
-        <select [(ngModel)]="selectedDiscipline" id="discipline">
-          <option *ngFor="let discipline of disciplines" [value]="discipline.name">{{ discipline.name }}</option>
+        
+        <label for="disciplineSelect">Select Discipline:</label>
+        <select id="disciplineSelect" [(ngModel)]="selectedDiscipline">
+          <option *ngFor="let discipline of disciplines" [ngValue]="discipline.name">{{ discipline.name }}</option>
         </select>
+  
         <label for="comment">Comment:</label>
         <textarea [(ngModel)]="comment" id="comment"></textarea>
         <button (click)="submitReview()">Submit</button>
+      </div>
+    </div>
+  
+    <div class="modal" *ngIf="showReviewModal">
+      <div class="modal-content">
+        <span class="close" (click)="closeReviewModal()">&times;</span>
+        <h2>Отзывы на студента {{ student.firstName }} {{ student.lastName }}</h2>
+        <div *ngIf="reviews.length === 0">
+          <p>Нет отзывов</p>
+        </div>
+        <div *ngFor="let review of reviews">
+          <p><strong>Дата:</strong> {{ review.date | date }}</p>
+          <p><strong>Дисциплина:</strong> {{ review.discipline }}</p>
+          <p><strong>Комментарий:</strong> {{ review.comment }}</p>
+          <hr>
+        </div>
       </div>
     </div>
   </div>

@@ -11,11 +11,13 @@ export class ExchangeVisitsPageComponent {
   selectedPlanFile: File | null = null;
   selectedFeedbackFile: File | null = null;
   templateFiles: any[] = [];
+  reviews: any[] = [];
 
   constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
     this.downloadTemplate();
+    this.fetchReviews(); // Fetch reviews when the component initializes
   }
 
   setTab(tab: string): void {
@@ -60,6 +62,10 @@ export class ExchangeVisitsPageComponent {
     }
   }
 
+  downloadReviewFile(base64File: string, fileName: string): void {
+    this.downloadFile(base64File, fileName);
+  }
+
   onFileSelected(event: any, type: string): void {
     if (type === 'plan') {
       this.selectedPlanFile = event.target.files[0];
@@ -87,7 +93,23 @@ export class ExchangeVisitsPageComponent {
     );
   }
 
-  // Метод для проверки строки Base64
+  fetchReviews(): void {
+    const teacherId = this.serverService.currentUserValue.userId;
+    this.serverService.getTeacherReviews(teacherId).subscribe(
+      response => {
+        if (response.success && response.items) {
+          this.reviews = response.items;
+          console.log('Reviews loaded:', this.reviews);
+        } else {
+          console.error('Error response:', response);
+        }
+      },
+      error => {
+        console.error('Error fetching reviews:', error);
+      }
+    );
+  }
+
   private isBase64(str: string): boolean {
     try {
       return btoa(atob(str)) === str;

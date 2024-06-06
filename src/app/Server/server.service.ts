@@ -622,5 +622,21 @@ updateStudentExamGrade(examId: string, exam: Exam): Observable<any> {
     })
   );
 }
+getStudentReviews(studentId: string): Observable<Review[]> {
+  return this.http.get<Review[]>(`${this.baseUrl}/Reviews/ByStudent/${studentId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching reviews:', error);
+      return throwError(error);
+    })
+  );
+}
+getTeacherReviews(teacherId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/ExchangeVisitsPlanReview/by-teacher/${teacherId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching teacher reviews:', error);
+      return throwError(error);
+    })
+  );
+}
 
 }

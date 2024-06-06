@@ -61,7 +61,7 @@ export class ProfilePageComponent {
 
   downloadCertificate(certificateId: string): void {
     this.serverService.downloadCertificate(certificateId).subscribe(response => {
-      saveAs(response, 'certificate.pdf');
+      saveAs(response, 'certificate.rar');
     }, error => {
       console.error('Error downloading certificate:', error);
     });

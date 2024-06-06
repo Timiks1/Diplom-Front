@@ -4,7 +4,7 @@ import { Discipline } from '../Server/Models/Discipline.model';
 import { ServerService } from '../Server/server.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Review } from '../Server/Models/review.model';
 @Component({
   selector: 'app-student-card',
   templateUrl: './student-card.component.html',
@@ -16,8 +16,12 @@ export class StudentCardComponent {
   showModal: boolean = false;
   selectedDiscipline: string = '';
   comment: string = '';
+  showReviewModal: boolean = false;
+  reviews: Review[] = [];
 
-  constructor(private http: HttpClient, private serverService: ServerService) {}
+  constructor(private serverService: ServerService) {
+    console.log(this.disciplines)
+  }
 
   openModal() {
     this.showModal = true;
@@ -43,5 +47,22 @@ export class StudentCardComponent {
     }, error => {
       console.error('Error submitting review', error);
     });
+  }
+
+  openReviewModal(): void {
+    this.serverService.getStudentReviews(this.student.id).subscribe(
+      (reviews) => {
+        this.reviews = reviews;
+        this.showReviewModal = true;
+      },
+      (error) => {
+        console.error('Error fetching reviews:', error);
+      }
+    );
+  }
+
+  closeReviewModal(): void {
+    this.showReviewModal = false;
+    this.reviews = [];
   }
 }

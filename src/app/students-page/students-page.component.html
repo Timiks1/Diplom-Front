@@ -7,8 +7,12 @@
     <input type="text" placeholder="Поиск студента" (input)="onSearch($event)">
   </div>
   <div class="student-cards">
-    <app-student-card *ngFor="let student of filteredStudents" [student]="student"></app-student-card>
-  </div>
+    <app-student-card 
+    *ngFor="let student of filteredStudents" 
+    [student]="student" 
+    [disciplines]="selectedGroup?.disciplines || []">
+  </app-student-card> 
+ </div>
 </div>
 
 <app-side-menu></app-side-menu>
