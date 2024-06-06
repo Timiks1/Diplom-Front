@@ -2,7 +2,7 @@
   <h1>Присутні</h1>
   <div class="second-container">
     <div class="mini-container">
-      <div>Выбрать урок</div>
+      <div>Вибрати урок</div>
       <select class="selector" [(ngModel)]="selectedLesson" (change)="onLessonChange($event)">
         <option *ngFor="let lesson of lessons" [value]="lesson.lesson">
           {{ lesson.lesson }} - {{ convertTime(lesson.time) }} - {{ lesson.groupName }}
@@ -10,24 +10,24 @@
       </select>
     </div>
     <div class="mini-container">
-      <div class="text">Загрузить домашнее задание</div>
+      <div class="text">Завантажити домашнє завдання</div>
       <button class="selector" (click)="openModal()">
-        <img src="assets/upload.jpg" alt="Изображение" class="upload-img" />
+        <img src="assets/upload.jpg" alt="Зображення" class="upload-img" />
       </button>
     </div>
   </div>
   <div class="thrid-container">
     <div class="first-row">
       <div class="row-text">Фото</div>
-      <div class="row-text2">Фио</div>
-      <div class="row-text3">Наличие</div>
-      <div class="row-text">Оценка</div>
+      <div class="row-text2">ПІБ</div>
+      <div class="row-text3">Присутність</div>
+      <div class="row-text">Оцінка</div>
     </div>
     <div class="line"></div>
     <div class="content" *ngIf="selectedGroup">
       <div *ngFor="let student of selectedGroup.students" class="student-container">
         <div class="student-row">
-          <img  alt="Student photo" class="student-photo">
+          <img alt="Student photo" class="student-photo">
           <div class="student-info">
             <div>{{ student.firstName }} {{ student.lastName }}</div>
             <div>{{ student.email }}</div>
@@ -56,21 +56,21 @@
       </div>
     </div>
   </div>
-  <button (click)="saveLessonDetails()">Сберегти</button>
+  <button class="save-button"(click)="saveLessonDetails()">Зберегти</button>
 </div>
 <app-side-menu></app-side-menu>
 <div class="modal" *ngIf="isModalOpen">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
-    <h2>Загрузить домашнее задание</h2>
+    <h2>Завантажити домашнє завдання</h2>
     <form (ngSubmit)="onAddHomeworkSubmit()">
-      <label for="description">Описание:</label>
+      <label for="description">Опис:</label>
       <input type="text" id="description" [(ngModel)]="homeworkDescription" name="description" required>
       
-      <label for="file">Выбрать файл:</label>
+      <label for="file">Вибрати файл:</label>
       <input type="file" id="file" (change)="onFileChange($event)" required>
 
-      <button type="submit">Сохранить</button>
+      <button type="submit">Зберегти</button>
     </form>
   </div>
 </div>

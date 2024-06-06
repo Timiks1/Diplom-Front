@@ -41,11 +41,11 @@ export class TestsPageComponent {
   }
 
   filterTests(): void {
-    if (this.selectedStatus === 'В ожидании') {
+    if (this.selectedStatus === 'В очікуванні') {
       this.filteredTests = this.teacherTests.filter(test => test.status === 'waiting');
-    } else if (this.selectedStatus === 'Принятые') {
+    } else if (this.selectedStatus === 'Прийняті') {
       this.filteredTests = this.teacherTests.filter(test => test.status === 'ok');
-    } else if (this.selectedStatus === 'Отклоненные') {
+    } else if (this.selectedStatus === 'Відхилені') {
       this.filteredTests = this.teacherTests.filter(test => test.status === 'denied');
     } else {
       this.filteredTests = this.teacherTests; // Показываем все тесты, если выбран неизвестный статус

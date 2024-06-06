@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams,HttpHeaders  } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import { News, TeacherTest } from './interfaces'; // Предполагается, что вы импортировали интерфейс News из вашего файла interfaces.ts
@@ -638,5 +638,97 @@ getTeacherReviews(teacherId: string): Observable<any> {
     })
   );
 }
+updateHomeworkByLessonName(lessonName: string, description: string, fileBase64: string): Observable<any> {
+  const formData = new FormData();
+  formData.append('description', description);
+  const byteCharacters = atob(fileBase64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+  formData.append('file', blob, 'homework.file');
 
+  return this.http.put<any>(`${this.baseUrl}/HomeWorks/update-by-lesson-name?lessonName=${lessonName}`, formData).pipe(
+    catchError(error => {
+      console.error('Error updating homework:', error);
+      return throwError(error);
+    })
+  );
+}
+getWorkingCurriculumsByLessonId(lessonId: string): Observable<any> {
+  return this.http
+    .get<any>(`${this.baseUrl}/WorkingCurriculums/by-lesson-id`, {
+      params: new HttpParams().set('lessonId', lessonId),
+    })
+    .pipe(
+      catchError((error) => {
+        console.error('Error fetching working curriculums:', error);
+        return throwError(error);
+      })
+    );
+}
+addMaterial(material: any): Observable<any> {
+  const formData = new FormData();
+  formData.append('Id', material.id);
+  formData.append('TeacherId', material.teacherId);
+  formData.append('Name', material.name);
+  formData.append('LessonId', material.lessonId);
+  formData.append('FileFormat', material.fileFormat);
+
+  const byteCharacters = atob(material.file);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: `application/${material.fileFormat}` });
+  formData.append('File', blob, `${material.name}.${material.fileFormat}`);
+
+  return this.http.post<any>(`${this.baseUrl}/WorkingCurriculums`, formData).pipe(
+    catchError(error => {
+      console.error('Error adding material:', error);
+      return throwError(error);
+    })
+  );
+}
+
+
+addComment(homeworkId: string, comment: string): Observable<any> {
+  const url = `${this.baseUrl}/HomeWorks/add-comment/${homeworkId}?comment=${comment}`;
+  
+  return this.http.put<any>(url, null).pipe(
+    catchError(error => {
+      console.error('Error adding comment:', error);
+      return throwError(error);
+    })
+  );
+}
+getUniversityContacts(): Observable<any> {
+  const adminId = '4d82beb4-5e7b-48e6-b084-5bdc485bc1e7';
+  return this.http.get<any>(`${this.baseUrl}/Users/${adminId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching university contacts:', error);
+      return throwError(error);
+    })
+  );
+}
+getDepartments(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Departments`).pipe(
+    catchError(error => {
+      console.error('Error fetching departments:', error);
+      return throwError(error);
+    })
+  );
+}
+
+getUsersByDepartmentId(departmentId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Users/GetByDepartmentId/${departmentId}`).pipe(
+    catchError(error => {
+      console.error('Error fetching users by department ID:', error);
+      return throwError(error);
+    })
+  );
+}
 }

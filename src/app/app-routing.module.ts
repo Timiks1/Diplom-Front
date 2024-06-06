@@ -17,6 +17,7 @@ import { MeetingsPageComponent } from './meetings-page/meetings-page.component';
 import { ExchangeVisitsPageComponent } from './exchange-visits-page/exchange-visits-page.component';
 import { HomeworkPageComponent } from './homework-page/homework-page.component';
 import { TestsSchedulePageComponent } from './tests-schedule-page/tests-schedule-page.component';
+import { ContactsPageComponent } from './contacts-page/contacts-page.component';
 import { AuthGuard } from './AuthGuard'
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent }, // Страница входа
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'exchange', component: ExchangeVisitsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: 'homework', component: HomeworkPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
   { path: 'tests-schedule', component: TestsSchedulePageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
+  { path: 'contacts', component: ContactsPageComponent, canActivate: [AuthGuard]  }, // Страница присутствия
 
   { path: '**', redirectTo: '/login' }, // Перенаправление на страницу входа при неверном маршруте
 ];

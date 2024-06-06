@@ -24,13 +24,15 @@
 
 .lesson-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #ffffff;
+  gap: 10px;
 }
 
 .lesson-item span {
@@ -44,8 +46,73 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .btn-primary:hover {
   background-color: #0056b3;
+}
+.materials-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.material-grid {
+  display: flex;
+  gap: 10px;
+}
+
+.material-item {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.material-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.material-name {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+/* Modal styles */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.close {
+  float: right;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }

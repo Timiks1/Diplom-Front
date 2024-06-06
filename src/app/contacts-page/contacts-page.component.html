@@ -1,0 +1,26 @@
+<div class="container">
+    <h1>Контакти Університету</h1>
+    <div *ngIf="contacts" class="contacts">
+      <p><strong>Телефон:</strong> {{ contacts.phoneNumber }}</p>
+      <p><strong>Адреса:</strong> {{ contacts.firstName }}</p>
+      <p><strong>Електронна пошта:</strong> {{ contacts.email }}</p>
+    </div>
+    <div *ngIf="!contacts">
+      <p>Завантаження контактів...</p>
+    </div>
+  
+    <div *ngIf="users.length > 0" class="users-container">
+      <h2>Співробітники департаменту "{{ selectedDepartment.name }}"</h2>
+      <div class="users-container-small">
+      <div class="user-card" *ngFor="let user of users">
+        <p><strong>Ім'я:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Телефон:</strong> {{ user.phoneNumber }}</p>
+      </div>
+    </div>
+    </div>
+    <div *ngIf="users.length === 0">
+      <p>Завантаження користувачів...</p>
+    </div>
+  </div>
+  

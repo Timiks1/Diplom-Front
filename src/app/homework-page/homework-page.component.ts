@@ -25,6 +25,11 @@ export class HomeworkPageComponent {
   newHomework: { description: string; lessonId: string; file?: File } = { description: '', lessonId: '' };
   maxExams: number = 0;
   maxExamsArray: number[] = []; // Добавьте это поле
+  isCommentModalOpen: boolean = false;
+  newComment: string = '';
+  selectedStudentId: string | null = null;
+  selectedLesson: Lesson | null = null;
+  selectedHomeworkId: string | null = null;
 
   constructor(private serverService: ServerService) {}
 
@@ -205,34 +210,16 @@ export class HomeworkPageComponent {
       reader.onload = () => {
         const fileBase64 = reader.result?.toString().split(',')[1];
         if (fileBase64) {
-          this.students.forEach(student => {
-            const homework: HomeWork = {
-              id: this.serverService.generateUUID(),
-              name: this.lessons.find(lesson => lesson.id === lessonId)?.lessonName || lessonId,
-              description,
-              studentName: `${student.firstName} ${student.lastName}`,
-              teacherName: this.serverService.currentUserValue.userName,
-              disciplineName: this.selectedDiscipline.name,
-              file: fileBase64,
-              isChecked: false,
-              grade: 0,
-              studentId: student.id,
-              disciplineId: this.selectedDiscipline.id,
-              teacherId: this.serverService.currentUserValue.userId,
-            };
-
-            this.serverService.addHomework(homework).subscribe(
-              (response) => {
-                console.log('Homework added successfully for student:', student.id);
-              },
-              (error) => {
-                console.error('Error adding homework for student:', student.id, error);
-              }
-            );
-          });
-
-          this.closeAddHomeworkModal();
-          this.onDisciplineChange(); // Refresh the homeworks list
+          this.serverService.updateHomeworkByLessonName(this.lessons.find(lesson => lesson.id === lessonId)?.lessonName || lessonId, description, fileBase64).subscribe(
+            (response) => {
+              console.log('Homework updated successfully');
+              this.closeAddHomeworkModal();
+              this.onDisciplineChange(); // Refresh the homeworks list
+            },
+            (error) => {
+              console.error('Error updating homework:', error);
+            }
+          );
         }
       };
       reader.readAsDataURL(file);
@@ -240,7 +227,7 @@ export class HomeworkPageComponent {
       console.error('All fields are required');
     }
   }
-
+  
   getExamsForStudent(studentId: string): any[] {
     return this.exams[studentId] || [];
   }
@@ -263,4 +250,50 @@ export class HomeworkPageComponent {
       }
     );
   }
+  getAttendanceClass(studentId: string, lesson: Lesson): string {
+    const attendance = lesson.studentAttendances.find((a: StudentAttendance) => a.studentId === studentId);
+    if (attendance) {
+      if (!attendance.isPresent) {
+        return 'absent';
+      } else if (attendance.isLate) {
+        return 'late';
+      } else {
+        return 'present';
+      }
+    }
+    return '';
+  }
+  getHomeworkClass(studentId: string, lesson: Lesson): string {
+    const homework = this.homeworks[studentId]?.find(hw => hw.name === lesson.lessonName);
+    if (homework) {
+      return homework.isChecked ? 'checked' : 'unchecked';
+    }
+    return '';
+  }
+  openCommentModal(homeworkId: string): void {
+    this.selectedHomeworkId = homeworkId;
+    this.isCommentModalOpen = true;
+  }
+
+  closeCommentModal(): void {
+    this.isCommentModalOpen = false;
+    this.newComment = '';
+    this.selectedHomeworkId = null;
+  }
+
+  submitComment(): void {
+    if (this.selectedHomeworkId) {
+      this.serverService.addComment(this.selectedHomeworkId, this.newComment).subscribe(
+        response => {
+          console.log('Comment added successfully:', response);
+          this.closeCommentModal();
+          // Опционально обновить данные или выполнить дополнительные действия
+        },
+        error => {
+          console.error('Error adding comment:', error);
+        }
+      );
+    }
+  }
+  
 }

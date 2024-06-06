@@ -2,32 +2,30 @@
   <h2>Взаємовідвідування</h2>
   
   <div class="tabs">
-    <button (click)="setTab('plans')" [class.active]="selectedTab === 'plans'">Планы</button>
-    <button (click)="setTab('feedbacks')" [class.active]="selectedTab === 'feedbacks'">Отзывы</button>
+    <button (click)="setTab('plans')" [class.active]="selectedTab === 'plans'">Плани</button>
+    <button (click)="setTab('feedbacks')" [class.active]="selectedTab === 'feedbacks'">Відгуки</button>
   </div>
 
   <div *ngIf="selectedTab === 'plans'" class="tab-content">
-    <h3>Загрузить шаблон</h3>
+    <h3>Завантажити шаблон</h3>
     <div *ngFor="let file of templateFiles">
-      <button class="btn btn-primary" (click)="downloadFile(file.file, file.name)">Скачать {{ file.name }}</button>
+      <button class="btn btn-primary" (click)="downloadFile(file.file, file.name)">Завантажити {{ file.name }}</button>
     </div>
 
-    <h3>Отправить заполненный план</h3>
+    <h3>Надіслати заповнений план</h3>
     <input type="file" (change)="onFileSelected($event, 'plan')">
-    <button class="btn btn-primary" [disabled]="!selectedPlanFile" (click)="uploadFile('plan')">Отправить</button>
+    <button class="btn btn-primary" [disabled]="!selectedPlanFile" (click)="uploadFile('plan')">Надіслати</button>
   </div>
 
   <div *ngIf="selectedTab === 'feedbacks'" class="tab-content">
-    <h3>Отзывы</h3>
+    <h3>Відгуки</h3>
     <div class="reviews-grid">
       <div class="review-card" *ngFor="let review of reviews">
         <h4>{{ review.name }}</h4>
     
-        <button class="btn btn-secondary" (click)="downloadReviewFile(review.file, review.name)">Скачать</button>
+        <button class="btn btn-secondary" (click)="downloadReviewFile(review.file, review.name)">Завантажити</button>
       </div>
     </div>
-
-
   </div>
 </div>
 
