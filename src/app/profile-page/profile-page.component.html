@@ -2,8 +2,10 @@
   <h1>Профіль</h1>
   <div class="second-container">
     <div class="first-block">
-      <div class="circle"></div>
-      <button class="upload" (click)="onUploadPhoto()">Завантажити фото</button>
+      <div class="circle">
+        <img *ngIf="profilePhotoUrl" [src]="profilePhotoUrl" alt="Фото профілю" class="profile-photo">
+      </div>
+      <button class="upload" (click)="openFileDialog()">Завантажити фото</button>
     </div>
     <div class="second-block">
       <label for="firstName" class="form-label">Ім'я</label>

@@ -13,6 +13,8 @@ export class ProfilePageComponent {
   certificates: any[] = [];
   selectedCertificateFile: File | null = null;
   certificateName: string = '';
+    profilePhotoUrl: string | null = null; // URL для отображения фото
+
   constructor(private serverService: ServerService) { }
 
   ngOnInit(): void {
@@ -23,11 +25,22 @@ export class ProfilePageComponent {
   getProfile(): void {
     this.serverService.getCurrentUser().subscribe(response => {
       this.profile = response.item;
+      if (this.profile.photoBase64) {
+        this.profilePhotoUrl = `data:image/jpeg;base64,${this.profile.photoBase64}`;
+      }
     }, error => {
       console.error('Error fetching profile:', error);
     });
   }
-
+  arrayBufferToBase64(buffer: any): string {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return 'data:image/jpeg;base64,' + window.btoa(binary);
+  }
   getCertificates(): void {
     this.serverService.getCertificates().subscribe(response => {
       this.certificates = response.items;
@@ -75,7 +88,37 @@ export class ProfilePageComponent {
     });
   }
 
-  onUploadPhoto(): void {
-    // Логика для загрузки фото
+  onUploadPhoto(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        this.profile.photo = base64.split(',')[1]; // Убираем префикс "data:image/jpeg;base64,"
+        this.updateProfileWithPhoto();
+      };
+      reader.readAsDataURL(file);
+    }
   }
+  
+  updateProfileWithPhoto(): void {
+    this.serverService.updateProfile(this.profile).subscribe(
+      response => {
+        console.log('Profile photo updated successfully:', response);
+        this.getProfile(); // Обновить профиль для отображения новой фотографии
+      },
+      error => {
+        console.error('Error updating profile photo:', error);
+      }
+    );
+  }
+  
+  openFileDialog(): void {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = this.onUploadPhoto.bind(this);
+    input.click();
+  }
+  
 }
