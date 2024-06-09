@@ -1,13 +1,14 @@
 <div class="container">
   <div class="central-container">
-    <h1>AUS Step</h1>
+    <h1>Підсистема вчитель Дніпровського технологічного університету Шаг</h1>
 
     <input
       class="enter-field"
       type="text"
       id="username"
       name="username"
-      placeholder="Login"
+      placeholder="Логін"
+      [(ngModel)]="username"
     />
 
     <input
@@ -15,9 +16,10 @@
       type="password"
       id="password"
       name="password"
-      placeholder="Password"
+      placeholder="Пароль"
+      [(ngModel)]="password"
     />
 
-    <button class="enter-button" (click)="login()">Enter</button>
+    <button class="enter-button" (click)="login()">Вхід</button>
   </div>
 </div>

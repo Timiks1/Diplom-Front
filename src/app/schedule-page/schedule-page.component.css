@@ -76,3 +76,7 @@
 .popup button {
   margin-top: 10px;
 }
+.day.has-lessons {
+  background-color: green;
+  color: white;
+}

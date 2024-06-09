@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Матеріали</h2>
+
+  <div class="form-group">
+    <label for="disciplineSelect">Виберіть дисципліну</label>
+    <select id="disciplineSelect" class="form-control" (change)="onDisciplineChange($event)">
+      <option *ngFor="let discipline of disciplines" [value]="discipline.id">
+        {{ discipline.name }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="selectedDiscipline">
+    <h3>{{ selectedDiscipline.name }}</h3>
+    <ul class="lessons-list">
+      <li *ngFor="let lesson of lessons" class="lesson-item" (click)="toggleMaterials(lesson.id)">
+        <span class="lesson-name" >
+          {{ lesson.lessonName }}
+        </span>
+        <div *ngIf="expandedLessonId === lesson.id" class="materials-list">
+          <button class="btn btn-primary add-material-button" (click)="addMaterial(lesson.id)">Додати матеріали</button>
+          <div class="material-grid">
+            <div *ngFor="let material of lessonMaterials[lesson.id]" class="material-item">
+              <div class="material-content">
+                <span class="material-name">{{ material.name }}</span>
+                <button class="btn btn-secondary download-button" (click)="downloadMaterial(material.file, material.fileFormat, material.name)">Завантажити</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<app-side-menu></app-side-menu>
+<div class="modal" *ngIf="isAddMaterialModalOpen">
+  <div class="modal-content">
+    <span class="close" (click)="closeAddMaterialModal()">&times;</span>
+    <h2>Додати матеріал</h2>
+    <form (ngSubmit)="onAddMaterialSubmit()">
+      <label for="materialName">Назва матеріалу:</label>
+      <input id="materialName" [(ngModel)]="newMaterial.name" name="name" required>
+
+      <label for="fileInput">Завантажити файл:</label>
+      <input type="file" id="fileInput" (change)="onFileSelected($event)">
+
+      <div class="modal-buttons">
+        <button type="button" class="btn btn-secondary" (click)="closeAddMaterialModal()">Скасувати</button>
+        <button type="submit" class="btn btn-primary">Відправити</button>
+      </div>
+    </form>
+  </div>
+</div>

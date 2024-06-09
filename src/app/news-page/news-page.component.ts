@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { ServerService } from '../Server/server.service';
+import { News} from '../Server/interfaces';
 @Component({
   selector: 'app-news-page',
   templateUrl: './news-page.component.html',
@@ -7,14 +8,27 @@ import { Component } from '@angular/core';
 })
 export class NewsPageComponent {
   selectedCategory: string = 'educational'; // Изначально выбранная категория
-  newsRows: string[][] = [[]]; // Массив для хранения новостей в виде рядов
+  newsList: News[] = [];
+  showFromDepartmentOnly: boolean = false;
 
-  constructor() {
-    // При инициализации компонента добавляем 8 прямоугольников в массив новостей
+  constructor(private serverService: ServerService) {
+    this.GetNews();
   }
-
-  loadNews(category: string): void {
+  GetNews() : void {
+    this.serverService.getNews().subscribe((news: News[]) => {
+      
+      this.newsList = news.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    });
+   
+  }
+  ChooseNews(category: string): void {
     // Устанавливаем новую выбранную категорию
-    this.selectedCategory = category;
+    if(category == "educational"){
+      this.showFromDepartmentOnly = false;
+    }
+    else{
+      this.showFromDepartmentOnly = true;
+
+    }
   }
 }

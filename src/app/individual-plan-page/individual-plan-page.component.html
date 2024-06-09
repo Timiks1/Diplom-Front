@@ -1,0 +1,26 @@
+<div class="main-container">
+  <div class="container">
+    <h1>Індивідуальний план</h1>
+    <button (click)="downloadIndividualPlanTemplate()" class="btn btn-secondary">Завантажити шаблон індивідуального плану</button>
+    <form (ngSubmit)="onSubmitIndividualPlan()" #uploadIndividualPlanForm="ngForm">
+      <div class="form-group">
+        <label for="individualPlanFile" class="form-label">Виберіть заповнений індивідуальний план</label>
+        <input type="file" id="individualPlanFile" (change)="onIndividualPlanFileSelected($event)" required class="form-input"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Завантажити індивідуальний план</button>
+    </form>
+  </div>
+  <div class="container">
+    <h1>План підвищення кваліфікації</h1>
+    <button (click)="downloadDevelopmentPlanTemplate()" class="btn btn-secondary">Завантажити шаблон плану підвищення кваліфікації</button>
+    <form (ngSubmit)="onSubmitDevelopmentPlan()" #uploadDevelopmentPlanForm="ngForm">
+      <div class="form-group">
+        <label for="developmentPlanFile" class="form-label">Виберіть заповнений план підвищення кваліфікації</label>
+        <input type="file" id="developmentPlanFile" (change)="onDevelopmentPlanFileSelected($event)" required class="form-input"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Завантажити план підвищення кваліфікації</button>
+    </form>
+  </div>
+</div>
+
+<app-side-menu></app-side-menu>

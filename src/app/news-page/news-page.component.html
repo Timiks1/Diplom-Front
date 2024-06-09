@@ -3,25 +3,26 @@
   <div class="second-container">
     <div
       class="from-where"
-      [class.active]="selectedCategory === 'educational'"
-      (click)="loadNews('educational')"
+      [class.active]="showFromDepartmentOnly == false"
+      (click)="ChooseNews('educational')"
     >
       Від навчальної частини
     </div>
     <div
       class="from-where"
-      [class.active]="selectedCategory === 'department'"
-      (click)="loadNews('department')"
+      [class.active]="showFromDepartmentOnly == true"
+      (click)="ChooseNews('department')"
     >
       Від зав. кафедрою
     </div>
   </div>
-  <div class="news-container">
-    <div class="news"></div>
-    <div class="news"></div>
-    <div class="news"></div>
-    <div class="news"></div>
-    <div class="news"></div>
-  </div>
+  <div class="news-container-big">
+    <div class="news-container-big">
+      <div *ngFor="let news of newsList" class="news-container" [style.display]="news.isFromDepartment == showFromDepartmentOnly ? 'flex' : 'none'">
+        <h2>{{ news.description }}</h2>
+        <p>Date: {{ news.date | date:'medium' }}</p>
+        <!-- Add other properties you want to display -->
+      </div>
+    </div>
 </div>
 <app-side-menu></app-side-menu>

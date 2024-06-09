@@ -1,0 +1,131 @@
+<div class="container">
+    <h2>{{ mode === 'classwork' ? 'Класна робота' : mode === 'homework' ? 'Домашня робота' : 'Екзамени' }}</h2>
+    <div class="selectors">
+        <label for="groupSelect">Виберіть групу:</label>
+        <select id="groupSelect" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+            <option *ngFor="let group of groups" [ngValue]="group">{{ group.name }}</option>
+        </select>
+
+        <label for="disciplineSelect">Виберіть дисципліну:</label>
+        <select id="disciplineSelect" [(ngModel)]="selectedDiscipline" (change)="onDisciplineChange()">
+            <option *ngFor="let discipline of disciplines" [ngValue]="discipline">{{ discipline.name }}</option>
+        </select>
+    </div>
+
+    <div class="mode-switch">
+        <button (click)="switchMode('classwork')" [class.active]="mode === 'classwork'">Класна робота</button>
+        <button (click)="switchMode('homework')" [class.active]="mode === 'homework'">Домашня робота</button>
+        <button (click)="switchMode('exams')" [class.active]="mode === 'exams'">Екзамени</button> <!-- Нова кнопка Екзамени -->
+    </div>
+
+    <button class="change-homework" (click)="openAddHomeworkModal()">Змінити домашнє завдання</button>
+
+    <div class="content">
+        <div class="students-list">
+            <h3>Студенти</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ПІБ студента</th>
+                            <ng-container *ngIf="mode === 'classwork' || mode === 'homework'">
+                                <th *ngFor="let lesson of lessons">
+                                    {{ lesson.lessonName }} - {{ lesson.date | date: 'shortDate' }}
+                                </th>
+                            </ng-container>
+                            <ng-container *ngIf="mode === 'exams'">
+                                <th *ngFor="let i of maxExamsArray">
+                                    Екзамен {{ i + 1 }}
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of students">
+                            <td>{{ student.firstName }} {{ student.lastName }}</td>
+                            <ng-container *ngIf="mode === 'classwork' || mode === 'homework'">
+                                <td *ngFor="let lesson of lessons">
+                                    <div *ngIf="mode === 'classwork'">
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="100"
+                                            [value]="getStudentGrade(student.id, lesson)"
+                                            (input)="onGradeInput($event, student.id, lesson)"
+                                            [ngClass]="getAttendanceClass(student.id, lesson)"
+
+                                        />
+                                    </div>
+                                    <div *ngIf="mode === 'homework'">
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="100"
+                                            [value]="getStudentHomeworkGrade(student.id, lesson)"
+                                            (input)="onHomeworkGradeInput($event, student.id, lesson)"
+                                            [ngClass]="getHomeworkClass(student.id, lesson)"
+
+                                        />
+                                        <button class="download-button" (click)="downloadHomework(student.id, lesson)">Завантажити</button>
+                                        <button class="comment-button" (click)="openCommentModal(student.id)">Оставить коментарий</button>
+                                   
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="mode === 'exams'">
+                                <td *ngFor="let exam of getExamsForStudent(student.id)">
+                                    <span>{{ exam.name }}: </span>
+                                    <input
+                                        type="number"
+                                        [value]="exam.grade || ''"
+                                        (input)="onExamGradeInput($event, student.id, exam)"
+                                        min="0"
+                                        max="100"
+                                    />
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-side-menu></app-side-menu>
+
+<!-- Додати домашнє завдання -->
+<div class="modal" *ngIf="isAddHomeworkModalOpen">
+    <div class="modal-content">
+        <span class="close" (click)="closeAddHomeworkModal()">&times;</span>
+        <h2>Додати домашнє завдання</h2>
+        <form (ngSubmit)="onAddHomeworkSubmit()">
+            <label for="homeworkDescription">Опис:</label>
+            <input id="homeworkDescription" [(ngModel)]="newHomework.description" name="description" required>
+            
+            <label for="lessonSelect">Виберіть урок:</label>
+            <select id="lessonSelect" [(ngModel)]="newHomework.lessonId" name="lesson" required>
+                <option *ngFor="let lesson of lessons" [ngValue]="lesson.id">{{ lesson.lessonName }}</option>
+            </select>
+            
+            <label for="fileInput">Завантажити файл:</label>
+            <input type="file" id="fileInput" (change)="onFileSelected($event)">
+            
+            <button type="submit">Змінити домашнє завдання</button>
+        </form>
+    </div>
+</div>
+<div class="modal" *ngIf="isCommentModalOpen">
+    <div class="modal-content">
+        <span class="close" (click)="closeCommentModal()">&times;</span>
+        <h2>Оставить комментарий</h2>
+        <form (ngSubmit)="submitComment()">
+            <label for="comment">Комментарий:</label>
+            <textarea id="comment" [(ngModel)]="newComment" name="comment" required></textarea>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary" (click)="closeCommentModal()">Отменить</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
