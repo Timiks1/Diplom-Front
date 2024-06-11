@@ -26,7 +26,8 @@ import { ExchangeVisitsPageComponent } from './exchange-visits-page/exchange-vis
 import { StudentCardComponent } from './student-card/student-card.component';
 import { HomeworkPageComponent } from './homework-page/homework-page.component';
 import { TestsSchedulePageComponent } from './tests-schedule-page/tests-schedule-page.component';
-import { ContactsPageComponent } from './contacts-page/contacts-page.component'
+import { ContactsPageComponent } from './contacts-page/contacts-page.component';
+import { ZvitPageComponent } from './zvit-page/zvit-page.component'
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ContactsPageComponent } from './contacts-page/contacts-page.component'
     StudentCardComponent,
     HomeworkPageComponent,
     TestsSchedulePageComponent,
-    ContactsPageComponent
+    ContactsPageComponent,
+    ZvitPageComponent
   ],
   imports: [
     BrowserModule,

@@ -11,5 +11,6 @@ export interface Student {
     groupName: string | null;
     departmentId: string;
     groupId: string | null;
+    photoBase64 : string | null;
   }
   

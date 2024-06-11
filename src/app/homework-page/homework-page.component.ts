@@ -60,7 +60,7 @@ export class HomeworkPageComponent {
   onDisciplineChange(): void {
     if (this.selectedDiscipline) {
       this.serverService.getLessonsByDiscipline(this.selectedDiscipline.name).subscribe((response) => {
-        this.lessons = response.items;
+        this.lessons = response.items.sort((a: Lesson, b: Lesson) => new Date(b.date).getTime() - new Date(a.date).getTime());
       });
 
       this.students.forEach(student => {

@@ -42,6 +42,8 @@ export class ServerService {
             };
             // Сохраняем пользователя в локальном хранилище
             localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('expiration', response.expiration);
+
             // Устанавливаем пользователя в BehaviorSubject
             this.currentUserSubject.next(user);
 
@@ -336,31 +338,40 @@ export class ServerService {
         })
       );
   }
-
-  uploadSyllabus(syllabus: Syllabus, fileName: string): Observable<any> {
-    const userId = this.currentUserValue.userId; // Получаем ID текущего пользователя
+  uploadSyllabusFile(file: Blob, fileName: string): Observable<any> {
     const formData = new FormData();
-    formData.append(
-      'file',
-      new Blob([JSON.stringify(syllabus)], { type: 'application/json' }),
-      fileName
-    );
+    formData.append('file', file, fileName);
+    const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
 
     const params = new HttpParams()
-      .set('TeacherId', userId)
-      .set('Name', `${fileName}-${this.currentUserValue.lastName}`);
+      .set('TeacherId', teacherId)
+      .set('Name', fileName);
 
-    return this.http
-      .post<any>(`${this.baseUrl}/Syllabi//create-from-json`, formData, {
-        params,
-      })
+    return this.http.post(`${this.baseUrl}/Syllabi`, formData, { params })
       .pipe(
         catchError((error) => {
-          console.error('Error uploading syllabus:', error);
+          console.error('Error uploading syllabus file:', error);
           return throwError(error);
         })
       );
   }
+
+   generateSyllabus(disciplineId: string): Observable<Blob> {
+    const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
+
+    const params = new HttpParams()
+      .set('disciplineId', disciplineId)
+      .set('teacherId', teacherId);
+
+    return this.http.post<Blob>(`${this.baseUrl}/Syllabi/generate`, null, { params, responseType: 'blob' as 'json' })
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error generating syllabus:', error);
+          return throwError(error);
+        })
+      );
+  }
+
   getTeacherTests(): Observable<TeacherTest[]> {
     const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
     return this.http
