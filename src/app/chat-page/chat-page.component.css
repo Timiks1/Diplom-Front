@@ -5,17 +5,56 @@
   align-items: center;
   flex-direction: column;
 }
+
 .second-container {
   display: flex;
   gap: 60px;
 }
+
 .first-block {
   width: 300px;
   height: 600px;
   background-color: #ffffff;
   border: 1px solid black;
   border-radius: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+.first-block input {
+  width: calc(100% - 40px);
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.first-block ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 450px;
+  overflow-y: auto;
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 0 0 20px 20px;
+  z-index: 1000;
+}
+
+.first-block ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.first-block ul li:hover {
+  background-color: #f0f0f0;
+}
+
 .second-block {
   width: 800px;
   height: 600px;
@@ -26,25 +65,56 @@
   border: 1px solid black;
   border-radius: 20px;
 }
+
 .message-area {
   width: 100%;
   height: 91%;
+  overflow-y: auto;
+  padding: 10px;
+  border-bottom: 1px solid black;
 }
+
+.message-area div {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #e6f0f3;
+  align-self: flex-start;
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-area div.self {
+  background-color: #d1e7dd;
+  align-self: flex-end;
+}
+
+.message-text {
+  flex-grow: 1;
+}
+
+.message-time {
+  margin-left: 10px;
+  font-size: 0.8em;
+  color: #555;
+}
+
 .input-area {
   display: flex;
   justify-content: center;
   width: 100%;
   height: 9%;
   gap: 20px;
+  padding: 10px;
 }
+
 .text-input {
-  bottom: 0;
   width: 70%;
-  height: 30px;
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
 }
+
 .send-button {
   width: 50px;
   height: 50px;
@@ -54,8 +124,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
+
+.send-button:hover {
+  background-color: #f0f0f0;
+}
+
 .arrow-image {
   rotate: 90deg;
   scale: 2;
+}
+
+.userNames {
+  color: #000000;
+}
+
+.userInput {
+  height: 2%;
 }

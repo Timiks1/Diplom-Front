@@ -154,18 +154,23 @@ export class ServerService {
   }
   //af346b95-fb99-472d-9432-a36a1f8c6752
   downloadWorkLoadTemplate(): Observable<Blob> {
+    const teacherId = this.currentUserValue.userId;
+  
+   
     return this.http
-      .get(
-        `${this.baseUrl}/TeacherLoads/af346b95-fb99-472d-9432-a36a1f8c6752`,
-        { responseType: 'blob' }
-      )
-      .pipe(
-        catchError((error) => {
-          console.error('Ошибка загрузки шаблона плана:', error);
-          return throwError(error);
-        })
-      );
+    .post(
+      `${this.baseUrl}/TeacherLoads/file?teacherId=${teacherId}`,
+      { },
+      { responseType: 'blob' }
+    )
+    .pipe(
+      catchError((error) => {
+        console.error('Ошибка загрузки шаблона плана:', error);
+        return throwError(error);
+      })
+    );
   }
+  
   uploadWorkloadFile(file: File): Observable<any> {
     const userId = this.currentUserValue.userId;
     const userName = this.currentUserValue.userName;
@@ -192,9 +197,13 @@ export class ServerService {
   }
   // Загрузка шаблона плана с сервера
   downloadPlanTemplate(): Observable<Blob> {
+    const currentYear = new Date().getFullYear();
+    const teacherId = this.currentUserValue.userId;
+
     return this.http
-      .get(
-        `${this.baseUrl}/IndividualPlans/7ab5ed4b-d797-4ffd-87fe-05853519d1cd`,
+      .post(
+        `${this.baseUrl}/IndividualPlans/file?year=${currentYear}&teacherId=${teacherId}`,
+        {},
         { responseType: 'blob' }
       )
       .pipe(
@@ -204,6 +213,7 @@ export class ServerService {
         })
       );
   }
+  
 
   // Отправка заполненного плана на сервер
   uploadFilledPlan(file: File): Observable<any> {
@@ -338,32 +348,24 @@ export class ServerService {
         })
       );
   }
-  uploadSyllabusFile(file: Blob, fileName: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file, fileName);
-    const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
-
-    const params = new HttpParams()
-      .set('TeacherId', teacherId)
-      .set('Name', fileName);
-
-    return this.http.post(`${this.baseUrl}/Syllabi`, formData, { params })
+  
+  updateSyllabusWithData(syllabusId: string, syllabusData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/Syllabi/update-with-data/${syllabusId}`, syllabusData)
       .pipe(
-        catchError((error) => {
-          console.error('Error uploading syllabus file:', error);
+        catchError((error: any) => {
+          console.error('Error updating syllabus with data:', error);
           return throwError(error);
         })
       );
   }
-
-   generateSyllabus(disciplineId: string): Observable<Blob> {
-    const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
-
+  generateSyllabus(disciplineId: string): Observable<{ file: ArrayBuffer, fileName: string, syllabusId: string }> {
+    const teacherId = this.currentUserValue.userId;
+  
     const params = new HttpParams()
       .set('disciplineId', disciplineId)
       .set('teacherId', teacherId);
-
-    return this.http.post<Blob>(`${this.baseUrl}/Syllabi/generate`, null, { params, responseType: 'blob' as 'json' })
+  
+    return this.http.post<{ file: ArrayBuffer, fileName: string, syllabusId: string }>(`${this.baseUrl}/Syllabi/generate`, null, { params })
       .pipe(
         catchError((error: any) => {
           console.error('Error generating syllabus:', error);
@@ -371,7 +373,6 @@ export class ServerService {
         })
       );
   }
-
   getTeacherTests(): Observable<TeacherTest[]> {
     const teacherId = this.currentUserValue.userId; // ID учителя берется из currentUser
     return this.http
@@ -455,7 +456,7 @@ export class ServerService {
       .set('Name', fileName);
 
     return this.http
-      .post<any>(`${this.baseUrl}/ExchangeVisitsPlans`, formData, { params })
+      .post<any>(`${this.baseUrl}/ExchangeVisitsPlans/createFile`, formData, { params })
       .pipe(
         catchError((error) => {
           console.error('Error uploading file:', error);
@@ -603,6 +604,7 @@ uploadDevelopmentPlan(file: File): Observable<any> {
       })
     );
 }
+
 downloadDevelopmentPlanTemplate(): Observable<Blob> {
   const templateId = '4d82beb4-5e7b-48e6-b084-5bdc485bc1e7';
   return this.http
@@ -738,6 +740,69 @@ getUsersByDepartmentId(departmentId: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/Users/GetByDepartmentId/${departmentId}`).pipe(
     catchError(error => {
       console.error('Error fetching users by department ID:', error);
+      return throwError(error);
+    })
+  );
+}
+searchUsers(term: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Chat/search`, {
+    params: new HttpParams().set('term', term),
+  }).pipe(
+    catchError((error) => {
+      console.error('Ошибка поиска пользователей:', error);
+      return throwError(error);
+    })
+  );
+}
+
+// Метод для получения чатов пользователя
+
+
+// Метод для получения всех сообщений
+getMessages(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/ChatMessage`, {
+   
+  }).pipe(
+    catchError((error) => {
+      console.error('Ошибка получения сообщений:', error);
+      return throwError(error);
+    })
+  );
+}
+
+// Метод для отправки сообщений
+sendMessage(chatMessageDto: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/ChatMessage`, chatMessageDto).pipe(
+    catchError((error) => {
+      console.error('Ошибка отправки сообщения:', error);
+      return throwError(error);
+    })
+  );
+}
+getAllUsers(): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Users`).pipe(
+    catchError((error) => {
+      console.error('Ошибка получения всех пользователей:', error);
+      return throwError(error);
+    })
+  );
+}
+getChatHistory(currentUserId: string, otherUserId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Chat/history`, {
+    params: new HttpParams().set('currentUserId', currentUserId).set('otherUserId', otherUserId),
+  }).pipe(
+    catchError((error) => {
+      console.error('Ошибка получения истории чата:', error);
+      return throwError(error);
+    })
+  );
+}
+getUserChats(userId: string): Observable<any> {
+  return this.http.get<any>(`${this.baseUrl}/Chat/userChats`, {
+    params: new HttpParams().set('userId', userId),
+  }).pipe(
+    catchError((error) => {
+      console.error('Ошибка получения чатов пользователя:', error);
       return throwError(error);
     })
   );

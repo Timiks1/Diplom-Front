@@ -4,6 +4,7 @@ import { Syllabus } from './syllabus.interface';
 import { saveAs } from 'file-saver'; // Импортируйте библиотеку file-saver для сохранения файла на клиенте
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+
 @Component({
   selector: 'app-sylabus-page',
   templateUrl: './sylabus-page.component.html',
@@ -39,12 +40,12 @@ export class SylabusPageComponent {
       }
     );
   }
+
   onDisciplineChange(event: any) {
     const selectedDisciplineId = event.target.value;
     this.selectedDiscipline = this.disciplines.find(d => d.id === selectedDisciplineId);
   }
 
-  
   uploadSyllabus() {
     if (!this.selectedDiscipline) {
       console.error('No discipline selected');
@@ -52,64 +53,35 @@ export class SylabusPageComponent {
     }
 
     const disciplineId = this.selectedDiscipline.id;
-    const fileName = `${this.selectedDiscipline.name}-syllabus_${new Date().toISOString()}`; // Название файла
 
-    // Генерация шаблона силлабуса
     this.serverService.generateSyllabus(disciplineId).subscribe(
-      (template: Blob) => {
+      (response) => {
+        const { file, fileName, syllabusId } = response;
         console.log('Template generated successfully');
 
-        // Заполнение шаблона данными
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const content = event.target?.result;
-          if (content) {
-            const zip = new PizZip(content as ArrayBuffer);
-            const doc = new Docxtemplater(zip, {
-              paragraphLoop: true,
-              linebreaks: true,
-            });
-          
-          // Заполнение шаблона данными из полей ввода
-          doc.setData({
-            literature: this.syllabus.literature,
-            additionalInfo: this.syllabus.additionalInfo,
-            teacherInfo: this.syllabus.teacherInfo,
-            prerequisites: this.syllabus.prerequisites,
-            corequisites: this.syllabus.corequisites,
-            disciplineGoal: this.syllabus.disciplineGoal,
-            disciplineContent: this.syllabus.disciplineContent,
-            individualTasks: this.syllabus.individualTasks,
-            software: this.syllabus.software,
-            studyResults: this.syllabus.studyResults,
-          });
-
-          try {
-            doc.render();
-          } catch (error) {
-            console.error('Error rendering document:', error);
-            return;
-          }
-
-          const out = doc.getZip().generate({
-            type: 'blob',
-            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          });
-
-          // Загрузка заполненного файла на сервер
-          this.serverService.uploadSyllabusFile(out,  fileName).subscribe(
-            response => {
-              console.log('Syllabus uploaded successfully:', response);
-            },
-            error => {
-              console.error('Error uploading syllabus:', error);
-            }
-          );
-        } else {
-          console.error('Error reading template content');
-        }
+        // Создание объекта данных для отправки на сервер
+        const syllabusData = {
+          literature: this.syllabus.literature,
+          additionalInfo: this.syllabus.additionalInfo,
+          teacherInfo: this.syllabus.teacherInfo,
+          prerequisites: this.syllabus.prerequisites,
+          corequisites: this.syllabus.corequisites,
+          disciplineGoal: this.syllabus.disciplineGoal,
+          disciplineContent: this.syllabus.disciplineContent,
+          individualTasks: this.syllabus.individualTasks,
+          software: this.syllabus.software,
+          studyResults: this.syllabus.studyResults,
         };
-        reader.readAsArrayBuffer(template);
+
+        // Отправка данных на сервер для обновления силлабуса
+        this.serverService.updateSyllabusWithData(syllabusId, syllabusData).subscribe(
+          response => {
+            console.log('Syllabus updated successfully with data:', response);
+          },
+          error => {
+            console.error('Error updating syllabus with data:', error);
+          }
+        );
       },
       error => {
         console.error('Error generating template:', error);
