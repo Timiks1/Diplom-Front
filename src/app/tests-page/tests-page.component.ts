@@ -9,7 +9,7 @@ import { TeacherTest } from '../Server/interfaces';
 export class TestsPageComponent {
   teacherTests: TeacherTest[] = [];
   filteredTests: TeacherTest[] = [];
-  selectedStatus: string = 'В ожидании'; // Значение по умолчанию
+  selectedStatus: string = 'В очікуванні'; // Значение по умолчанию
 
   // Для модального окна
   isModalOpen: boolean = false;

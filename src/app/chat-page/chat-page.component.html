@@ -2,23 +2,26 @@
   <h1>Чат</h1>
   <div class="second-container">
     <div class="first-block">
-      <input class="userInput" type="text" [(ngModel)]="searchTerm" placeholder="Поиск пользователя..." (input)="searchUsers()" />
-      <ul *ngIf="searchResults.length > 0">
+      <input class="userInput" type="text" [(ngModel)]="searchTerm" placeholder="Пошук користувача..." (input)="searchUsers()" />
+      <ul *ngIf="searchResults.length > 0" class="search-results">
         <li class="userNames" *ngFor="let user of searchResults" (click)="selectUser(user.id)">
           {{ user.firstName }}
         </li>
       </ul>
-      <div *ngIf="userChats.length > 0">
-        <h3>Ваши чаты</h3>
+      <div *ngIf="userChats.length > 0" class="chats-list">
+        <h3>Ваші чати</h3>
         <ul>
-          <li *ngFor="let chat of userChats" (click)="selectUser(chat.userId)">
-            {{ chat.RecieverId }} - {{ chat.message | slice:0:20 }}...
-            <span class="chat-time">{{ chat.lastMessageTime | date:'short' }}</span>
+          <li *ngFor="let chat of userChats" (click)="selectUser(chat.receiverId)">
+            {{ chat.receiverName }} - {{ chat.message | slice:0:20 }}...
+            <span class="chat-time">{{ chat.timeCreation | date:'short' }}</span>
           </li>
         </ul>
       </div>
     </div>
     <div class="second-block">
+      <div class="chat-header" *ngIf="selectedUserName">
+        {{ selectedUserName }}
+      </div>
       <div class="message-area">
         <div *ngFor="let message of messages" [class.self]="message.isSelf">
           <span class="message-text">{{ message.message }}</span>
@@ -28,7 +31,7 @@
       <div class="input-area">
         <textarea class="text-input" [(ngModel)]="newMessage"></textarea>
         <button class="send-button" (click)="sendMessage()">
-          <img src="assets/Arrow.svg" alt="Изображение" class="arrow-image" />
+          <img src="assets/Arrow.svg" alt="Зображення" class="arrow-image" />
         </button>
       </div>
     </div>

@@ -15,6 +15,7 @@ export class ChatPageComponent {
   selectedUserId: string = '';
   currentUserId: string = '';
   userChats: any[] = [];
+  selectedUserName: string = ''; // Новое свойство для хранения имени выбранного пользователя
 
   constructor(private serverService: ServerService) {
     this.currentUserId = this.serverService.currentUserValue.userId;
@@ -34,6 +35,7 @@ export class ChatPageComponent {
   loadUserChats() {
     this.serverService.getUserChats(this.currentUserId).subscribe((response: any) => {
       this.userChats = response.items;
+      console.log(this.userChats)
     });
   }
 
@@ -49,6 +51,8 @@ export class ChatPageComponent {
 
   selectUser(userId: string) {
     this.selectedUserId = userId;
+    this.selectedUserName = this.allUsers.find(user => user.id === userId)?.firstName || ''; // Установка имени выбранного пользователя
+
     this.searchTerm = '';
     this.searchResults = [];
     this.loadMessages();

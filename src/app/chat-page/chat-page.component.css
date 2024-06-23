@@ -20,39 +20,81 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
 }
 
 .first-block input {
   width: calc(100% - 40px);
-  margin: 20px;
+  margin: 0 20px;
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
+  z-index: 1001; /* Ensure the search input is above the chat list */
 }
 
-.first-block ul {
+.search-results {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  max-height: 450px;
+  max-height: 150px; /* Adjusted to be above chat list */
   overflow-y: auto;
   position: absolute;
   top: 60px;
-  width: 100%;
+  width: calc(100% - 40px); /* Adjusted width */
   background-color: #ffffff;
   border: 1px solid black;
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 10px 10px;
   z-index: 1000;
 }
 
-.first-block ul li {
+.search-results li {
   padding: 10px;
   cursor: pointer;
 }
 
-.first-block ul li:hover {
+.search-results li:hover {
   background-color: #f0f0f0;
+}
+
+.chats-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.chats-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chats-list li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.chats-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.chats-list h3 {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.chat-time {
+  font-size: 0.8em;
+  color: #555;
 }
 
 .second-block {
@@ -66,12 +108,21 @@
   border-radius: 20px;
 }
 
+.chat-header {
+  width: 97%;
+  padding: 10px;
+  background-color: #e6f0f3;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  border-radius: 20px 20px 0 0;
+}
+
 .message-area {
   width: 100%;
-  height: 91%;
+  height: 81%;
   overflow-y: auto;
   padding: 10px;
-  border-bottom: 1px solid black;
 }
 
 .message-area div {

@@ -95,7 +95,7 @@ export class ServerService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
-
+ 
   // Метод для получения новостей с сервера
   getNews(): Observable<News[]> {
     return this.http
