@@ -26,6 +26,7 @@ export class ProfilePageComponent {
     this.serverService.getCurrentUser().subscribe(response => {
       this.profile = response.item;
       if (this.profile.photoBase64) {
+        console.log(this.profile.photoBase64)
         this.profilePhotoUrl = `data:image/jpeg;base64,${this.profile.photoBase64}`;
       }
     }, error => {

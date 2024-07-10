@@ -1,0 +1,23 @@
+<div class="container">
+    <h1>Дисципліни</h1>
+    <div class="disciplines-list">
+      <div *ngFor="let discipline of disciplines" class="discipline-item">
+        <div class="discipline-header" (click)="toggleDiscipline(discipline.id, discipline.name)">
+          {{ discipline.name }}
+        </div>
+        <div *ngIf="expandedDisciplineId === discipline.id" class="lessons-list">
+          <ul>
+            <li *ngFor="let lesson of lessons[discipline.id]">
+              <span>{{ lesson.lessonName }}</span>
+              <span class="lesson-date">{{ lesson.date | date: 'short' }}</span>
+            </li>
+          </ul>
+          <div class="lesson-count">
+            Всього уроків: {{ getLessonCount(discipline.id) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<app-side-menu></app-side-menu>

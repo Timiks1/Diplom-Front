@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ServerService } from '../Server/server.service';
 import { Syllabus } from './syllabus.interface';
+import { saveAs } from 'file-saver'; // Импортируйте библиотеку file-saver для сохранения файла на клиенте
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+
 @Component({
   selector: 'app-sylabus-page',
   templateUrl: './sylabus-page.component.html',
@@ -11,18 +15,8 @@ export class SylabusPageComponent {
   selectedDiscipline: any = null;
 
   syllabus: Syllabus = {
-    degree: '',
-    educationLevel: '',
-    knowledgeArea: '',
-    specialty: '',
-    opp: '',
-    disciplineStatus: '',
-    courseAndSemester: '',
-    disciplineVolume: '',
-    teachingLanguage: '',
     literature: '',
     additionalInfo: '',
-    department: '',
     teacherInfo: '',
     prerequisites: '',
     corequisites: '',
@@ -31,7 +25,6 @@ export class SylabusPageComponent {
     individualTasks: '',
     software: '',
     studyResults: '',
-    disciplinePolicy: ''
   };
 
   constructor(private serverService: ServerService) { }
@@ -47,19 +40,51 @@ export class SylabusPageComponent {
       }
     );
   }
+
   onDisciplineChange(event: any) {
     const selectedDisciplineId = event.target.value;
     this.selectedDiscipline = this.disciplines.find(d => d.id === selectedDisciplineId);
   }
 
   uploadSyllabus() {
-    const fileName = `${this.selectedDiscipline.name}-syllabus_${new Date().toISOString()}`; // Название файла
-    this.serverService.uploadSyllabus(this.syllabus, fileName).subscribe(
-      response => {
-        console.log('Syllabus uploaded successfully:', response);
+    if (!this.selectedDiscipline) {
+      console.error('No discipline selected');
+      return;
+    }
+
+    const disciplineId = this.selectedDiscipline.id;
+
+    this.serverService.generateSyllabus(disciplineId).subscribe(
+      (response) => {
+        const { file, fileName, syllabusId } = response;
+        console.log('Template generated successfully');
+
+        // Создание объекта данных для отправки на сервер
+        const syllabusData = {
+          literature: this.syllabus.literature,
+          additionalInfo: this.syllabus.additionalInfo,
+          teacherInfo: this.syllabus.teacherInfo,
+          prerequisites: this.syllabus.prerequisites,
+          corequisites: this.syllabus.corequisites,
+          disciplineGoal: this.syllabus.disciplineGoal,
+          disciplineContent: this.syllabus.disciplineContent,
+          individualTasks: this.syllabus.individualTasks,
+          software: this.syllabus.software,
+          studyResults: this.syllabus.studyResults,
+        };
+
+        // Отправка данных на сервер для обновления силлабуса
+        this.serverService.updateSyllabusWithData(syllabusId, syllabusData).subscribe(
+          response => {
+            console.log('Syllabus updated successfully with data:', response);
+          },
+          error => {
+            console.error('Error updating syllabus with data:', error);
+          }
+        );
       },
       error => {
-        console.error('Error uploading syllabus:', error);
+        console.error('Error generating template:', error);
       }
     );
   }

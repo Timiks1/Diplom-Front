@@ -9,6 +9,7 @@
   background-color: #333; /* Цвет фона меню */
   color: #fff; /* Цвет текста */
   transition: left 0.3s ease; /* Анимация для плавного открытия и закрытия */
+  z-index: 9999;
 }
 
 .sidebar.open {
@@ -36,4 +37,21 @@ ul li a {
 
 ul li a:hover {
   text-decoration: underline;
+}
+
+.logout-button {
+  color: #fff;
+  background-color: #ff4d4d; /* Красный фон для выделения */
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1em; /* Увеличенный размер шрифта */
+  transition: background-color 0.3s, color 0.3s; /* Плавный переход */
+}
+
+.logout-button:hover {
+  background-color: #ff1a1a; /* Более яркий красный при наведении */
+  color: #fff;
 }

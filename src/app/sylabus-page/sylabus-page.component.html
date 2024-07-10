@@ -11,54 +11,15 @@
       </div>
   
       <div *ngIf="selectedDiscipline">
-        <div class="form-group">
-          <label for="degree">Ступінь вищої освіти</label>
-          <input type="text" id="degree" class="form-control" [(ngModel)]="syllabus.degree">
-        </div>
-        <div class="form-group">
-          <label for="educationLevel">Рівень вищої освіти</label>
-          <input type="text" id="educationLevel" class="form-control" [(ngModel)]="syllabus.educationLevel">
-        </div>
-        <div class="form-group">
-          <label for="knowledgeArea">Галузь знань</label>
-          <input type="text" id="knowledgeArea" class="form-control" [(ngModel)]="syllabus.knowledgeArea">
-        </div>
-        <div class="form-group">
-          <label for="specialty">Спеціальність</label>
-          <input type="text" id="specialty" class="form-control" [(ngModel)]="syllabus.specialty">
-        </div>
-        <div class="form-group">
-          <label for="opp">Освітньо-професійна програма (ОПП)</label>
-          <input type="text" id="opp" class="form-control" [(ngModel)]="syllabus.opp">
-        </div>
-        <div class="form-group">
-          <label for="disciplineStatus">Статус дисципліни</label>
-          <input type="text" id="disciplineStatus" class="form-control" [(ngModel)]="syllabus.disciplineStatus">
-        </div>
-        <div class="form-group">
-          <label for="courseAndSemester">Курс та семестр, на якому викладається дисципліна</label>
-          <input type="text" id="courseAndSemester" class="form-control" [(ngModel)]="syllabus.courseAndSemester">
-        </div>
-        <div class="form-group">
-          <label for="disciplineVolume">Обсяг дисципліни, семестровий контроль</label>
-          <input type="text" id="disciplineVolume" class="form-control" [(ngModel)]="syllabus.disciplineVolume">
-        </div>
-        <div class="form-group">
-          <label for="teachingLanguage">Мова викладання</label>
-          <input type="text" id="teachingLanguage" class="form-control" [(ngModel)]="syllabus.teachingLanguage">
-        </div>
+        
+      
+     
+     
         <div class="form-group">
           <label for="literature">Література</label>
           <textarea id="literature" class="form-control" [(ngModel)]="syllabus.literature"></textarea>
         </div>
-        <div class="form-group">
-          <label for="additionalInfo">Додаткова інформація</label>
-          <textarea id="additionalInfo" class="form-control" [(ngModel)]="syllabus.additionalInfo"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="department">Кафедра, що забезпечує викладання</label>
-          <input type="text" id="department" class="form-control" [(ngModel)]="syllabus.department">
-        </div>
+      
         <div class="form-group">
           <label for="teacherInfo">Інформація про викладача</label>
           <textarea id="teacherInfo" class="form-control" [(ngModel)]="syllabus.teacherInfo"></textarea>
@@ -92,9 +53,10 @@
           <textarea id="studyResults" class="form-control" [(ngModel)]="syllabus.studyResults"></textarea>
         </div>
         <div class="form-group">
-          <label for="disciplinePolicy">Політика навчальної дисципліни</label>
-          <textarea id="disciplinePolicy" class="form-control" [(ngModel)]="syllabus.disciplinePolicy"></textarea>
+          <label for="additionalInfo">Додаткова інформація</label>
+          <textarea id="additionalInfo" class="form-control" [(ngModel)]="syllabus.additionalInfo"></textarea>
         </div>
+      
         <button class="btn btn-primary" (click)="uploadSyllabus()">Загрузить Силлабус</button>
     </div>
     </div>

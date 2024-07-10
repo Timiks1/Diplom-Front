@@ -27,7 +27,7 @@
     <div class="content" *ngIf="selectedGroup">
       <div *ngFor="let student of selectedGroup.students" class="student-container">
         <div class="student-row">
-          <img alt="Student photo" class="student-photo">
+          <img [src]="'data:image/jpeg;base64,' + student.photoBase64" alt="Student photo" class="student-photo">
           <div class="student-info">
             <div>{{ student.firstName }} {{ student.lastName }}</div>
             <div>{{ student.email }}</div>

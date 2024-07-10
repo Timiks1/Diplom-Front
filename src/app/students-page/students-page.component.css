@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #e6f0f3;
+  min-height: 120vh;
 }
 
 .group {

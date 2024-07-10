@@ -40,7 +40,7 @@
     <p>Уроки на день {{ selectedDay }}</p>
     <ul>
       <li *ngFor="let lesson of getLessonsForSelectedDay()">
-        {{ formatTime(lesson.time) }} - {{ lesson.lesson }} ({{ lesson.teacher }})
+        {{ formatTime(lesson.time) }} - {{ lesson.lesson }} 
       </li>
     </ul>
     <button (click)="hidePopup()">Закрити</button>
